@@ -1,0 +1,15 @@
+{>"layouts/default" /}
+
+{<title}
+Radiant Retail - 500 the planet's kerploding!
+{/title}
+
+{<body}
+<div class="container">
+  <div class="jumbotron text-center">
+    <h1>Radiant Retail</h1>
+    <h2>500 - something's awry</h2>
+    <p>{error}</p>
+  </div>
+</div>
+{/body}

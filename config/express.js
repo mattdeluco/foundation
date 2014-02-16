@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 var express = require('express'),
-    consolidate = require('consolidate'),
+    dustjs = require('adaro'),
     mongoStore = require('connect-mongo')(express),
     flash = require('connect-flash'),
     helpers = require('view-helpers'),
@@ -35,10 +35,10 @@ module.exports = function(app, passport, db) {
     }
 
     // assign the template engine to .html files
-    app.engine('html', consolidate[config.templateEngine]);
+    app.engine('dust', dustjs.dust());
 
     // set .html as the default extension
-    app.set('view engine', 'html');
+    app.set('view engine', 'dust');
 
     // Set views path, template engine and default layout
     app.set('views', config.root + '/app/views');

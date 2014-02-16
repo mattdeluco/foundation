@@ -1,28 +1,25 @@
-<div class="" data-ng-controller="HeaderController">
-    <ul class="navbar-nav nav">
-        <li>
-            <a class="navbar-brand" href="/">MEAN - A Modern Stack</a>
-        </li>
-        <li data-ng-repeat="item in menu" data-ng-show="global.user" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}">
-            <a href="#!/{{item.link}}">{{item.title}}</a>
-        </li>
-    </ul>
-    <ul class="navbar-nav nav pull-right" data-ng-hide="global.authenticated">
-        <li><a href="signup">Signup</a>
-        </li>
-        <li class="divider-vertical"></li>
-        <li><a href="signin">Signin</a>
-        </li>
-    </ul>
-    <ul class="navbar-nav nav pull-right" data-ng-show="global.authenticated">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-				{{global.user.name}} <b class="caret"></b>
-			</a>
-            <ul class="dropdown-menu">
-                <li><a href="/signout">Signout</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
+<div class="navbar-inner" data-ng-controller="HeaderController">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example_navbar-collapse-1">
+      <span class="sr-only">Toggle Navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="/">Radiant Retail</a>
+  </div>
+
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <form action="/session/create" class="navbar-form navbar-right" role="login">
+      <div class="form-group">
+        <label class="sr-only" for="email">Email address</label>
+        <input type="text" id="email" class="form-control" placeholder="Email Address" name="email"/>
+      </div>&nbsp;
+      <div class="form-group">
+        <label class="sr-only" for="password">Password</label>
+        <input type="password" id="password" class="form-control" placeholder="Password" name="password"/>
+      </div>&nbsp;
+      <button type="submit" class="btn btn-default">Sign In</button>&nbsp;
+    </form>
+  </div>
 </div>

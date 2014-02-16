@@ -1,0 +1,15 @@
+{>"layouts/default" /}
+
+{<title}
+    Radiant Retail - light and bright retail tools!
+{/title}
+
+{<body}
+<div class="container">
+  <div class="jumbotron text-center">
+    <h1>Radiant Retail</h1>
+    <h2>Light and bright retail tools!</h2>
+    <a href="/user/new" class="btn btn-g btn-success">Sign up!</a>
+  </div>
+</div>
+{/body}
