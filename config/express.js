@@ -15,8 +15,17 @@ module.exports = function(app, passport, db) {
 
     // Prettify HTML
     app.locals.pretty = true;
-		// cache=memory or swig dies in NODE_ENV=production
-		app.locals.cache = 'memory';
+
+    // cache=memory or swig dies in NODE_ENV=production
+    app.locals.cache = 'memory';
+
+    app.locals({
+        site: {
+            title: 'MEAN',
+            tagline: 'dustjs-linkedin fork',
+            env: process.env.NODE_ENV
+        }
+    });
 		
     // Should be placed before express.static
     // To ensure that all assets and data are compressed (utilize bandwidth)
@@ -34,7 +43,7 @@ module.exports = function(app, passport, db) {
         app.use(express.logger('dev'));
     }
 
-    // assign the template engine to .html files
+    // assign the template engine to .dust files
     app.engine('dust', dustjs.dust());
 
     // set .html as the default extension

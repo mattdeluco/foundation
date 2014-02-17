@@ -27,7 +27,7 @@
   <div class="container">
     <hr/>
     <footer class="footer pull-right">
-      Radiant Retail - light and bright retail tools!
+      {site.title} - {site.tagline} ({site.env})
     </footer>
   </div>
 
@@ -56,6 +56,14 @@
 
   <!-- Angular Init -->
   <script type="text/javascript" src="/js/init.js"></script>
+
+  <script>
+    var site = {
+      title: '{site.title}',
+      tagline: '{site.tagline}',
+      env: '{site.env}'
+    };
+  </script>
 
 </body>
 
