@@ -44,9 +44,11 @@ module.exports = function(passport) {
                     return done(err);
 
                 if (user) {
-                    return done(null, false, req.flash(
-                            'authWarning',
-                            'That email is already taken.'
+                    return done(null, false, req.flash('authMessage',
+                            {
+                                type: 'alert-warning',
+                                message: 'That email is already taken.'
+                            }
                     ));
                 }
 
@@ -56,9 +58,11 @@ module.exports = function(passport) {
 
                 newUser.save(function(err) {
                     if (err)
-                        return done(null, false, req.flash(
-                                'authError',
-                                'Error signing up: ' + err.message
+                        return done(null, false, req.flash('authMessage',
+                                {
+                                    type: 'alert-danger',
+                                    message: 'Error signing up: ' + err.message
+                                }
                         ));
                     return done(null, newUser);
                 });
