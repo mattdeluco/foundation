@@ -10,14 +10,17 @@ module.exports = function(app, passport) {
     app.get('/signout', users.signout);
     app.get('/users/me', users.me);
 
-    // Setting up the users api
-    app.post('/users', users.create);
-
     // Setting up the userId param
     app.param('userId', users.user);
 
     // Setting the local strategy route
-    app.post('/users/session', passport.authenticate('local', {
+    app.post('/users', passport.authenticate('local-signup', {
+        successRedirect: '/users/me',
+        failureRedirect: '/signup',
+        failureFlash: true
+    }));
+
+    app.post('/signin', passport.authenticate('local', {
         failureRedirect: '/signin',
         failureFlash: true
     }), users.session);

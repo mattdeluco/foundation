@@ -10,7 +10,7 @@
     <h1>{site.title}</h1>
     <h2>{site.tagline}</h2>
     <h3>{site.env}</h3>
-    <a href="/user/new" class="btn btn-g btn-success">Sign up!</a>
+    <a href="/signup" class="btn btn-g btn-success">Sign up!</a>
   </div>
 </div>
 {/body}

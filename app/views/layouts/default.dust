@@ -16,13 +16,24 @@
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-ng-include="'/views/header.html'">
   </nav>
 
-  {?message}
-  <div class="alert alert-danger">
-    {message}
-  </div>
-  {/message}
+  <div class="container">
 
-  {+body /}
+    {#flash.error}
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="alert alert-danger alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <div class="strong">
+            {.}
+          </div>
+        </div>
+      </div>
+    </div>
+    {/flash.error}
+
+    {+body /}
+
+  </div>
 
   <div class="container">
     <hr/>

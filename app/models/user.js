@@ -12,14 +12,20 @@ var mongoose = require('mongoose'),
  */
 var UserSchema = new Schema({
     name: String,
-    email: String,
-    username: {
+    email: {
         type: String,
         unique: true
     },
-    hashed_password: String,
+    username: String,
+    hashed_password: {
+        type: String,
+        select: false
+    },
+    salt: {
+        type: String,
+        select: false
+    },
     provider: String,
-    salt: String,
     facebook: {},
     twitter: {},
     github: {},
@@ -57,13 +63,13 @@ UserSchema.path('email').validate(function(email) {
     if (!this.provider) return true;
     return (typeof email === 'string' && email.length > 0);
 }, 'Email cannot be blank');
-
+/*
 UserSchema.path('username').validate(function(username) {
     // if you are authenticating by any of the oauth strategies, don't validate
     if (!this.provider) return true;
     return (typeof username === 'string' && username.length > 0);
 }, 'Username cannot be blank');
-
+*/
 UserSchema.path('hashed_password').validate(function(hashed_password) {
     // if you are authenticating by any of the oauth strategies, don't validate
     if (!this.provider) return true;

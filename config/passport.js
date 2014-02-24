@@ -29,6 +29,44 @@ module.exports = function(passport) {
     });
 
     // Use local strategy
+
+    // local signup
+    passport.use('local-signup', new LocalStrategy({
+            usernameField: 'email',
+            passwordField: 'password',
+            passReqToCallback: true
+        },
+        function(req, email, password, done) {
+            User.findOne({
+                email: email
+            }, function(err, user) {
+                if (err)
+                    return done(err);
+
+                if (user) {
+                    return done(null, false, req.flash(
+                            'authWarning',
+                            'That email is already taken.'
+                    ));
+                }
+
+                var newUser = new User();
+                newUser.email = email;
+                newUser.password = password;
+
+                newUser.save(function(err) {
+                    if (err)
+                        return done(null, false, req.flash(
+                                'authError',
+                                'Error signing up: ' + err.message
+                        ));
+                    return done(null, newUser);
+                });
+            });
+        }
+    ));
+
+    // local signin
     passport.use(new LocalStrategy({
             usernameField: 'email',
             passwordField: 'password'

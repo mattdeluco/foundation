@@ -82,6 +82,10 @@ module.exports = function(app, passport, db) {
 
         // Connect flash for flash messages
         app.use(flash());
+        app.use(function(req, res, next) {
+            res.locals.flash = req.flash();
+            next();
+        });
 
         // Routes should be at the last
         app.use(app.router);
