@@ -45,10 +45,8 @@ module.exports = function(app, passport, db) {
 
     // assign the template engine to .dust files
     app.engine('dust', dustjs.dust());
-
-    // set .html as the default extension
+    // set .dust as the default extension
     app.set('view engine', 'dust');
-
     // Set views path, template engine and default layout
     app.set('views', config.root + '/app/views');
 
