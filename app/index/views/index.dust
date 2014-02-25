@@ -1,4 +1,4 @@
-{>"layouts/default" /}
+{>"index/views/layout" /}
 
 {<title}
     {site.title} ({site.env})

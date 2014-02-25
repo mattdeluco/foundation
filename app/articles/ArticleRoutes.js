@@ -1,8 +1,8 @@
 'use strict';
 
 // Articles routes use articles controller
-var articles = require('../controllers/articles');
-var authorization = require('./middlewares/authorization');
+var articles = require('./ArticleController');
+var authorization = require('./../routes/middlewares/authorization');
 
 // Article authorization helpers
 var hasAuthorization = function(req, res, next) {

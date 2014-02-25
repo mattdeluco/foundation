@@ -1,4 +1,4 @@
-{>"layouts/default" /}
+{>"index/views/layout" /}
 
 {<title}
 MEAN - 404 no such animal

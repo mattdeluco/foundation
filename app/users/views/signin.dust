@@ -1,4 +1,4 @@
-{>"users/layout" /}
+{>"users/views/layout" /}
 
 {<panel_title}Sign In{/panel_title}
 

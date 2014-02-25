@@ -1,4 +1,4 @@
-{>"layouts/default" /}
+{>"index/views/layout" /}
 
 {<title}
 MEAN - 500 the planet's kerploding!

@@ -25,13 +25,13 @@ var config = require('./config/config'),
 var db = mongoose.connect(config.db);
 
 // Bootstrap models
-var models_path = __dirname + '/app/models';
+var models_path = __dirname + '/app';
 var walk = function(path) {
     fs.readdirSync(path).forEach(function(file) {
         var newPath = path + '/' + file;
         var stat = fs.statSync(newPath);
         if (stat.isFile()) {
-            if (/(.*)\.(js$|coffee$)/.test(file)) {
+            if (/(.*)Model\.(js$|coffee$)/.test(file)) {
                 require(newPath);
             }
         } else if (stat.isDirectory()) {
@@ -50,13 +50,13 @@ var app = express();
 require('./config/express')(app, passport, db);
 
 // Bootstrap routes
-var routes_path = __dirname + '/app/routes';
+var routes_path = __dirname + '/app';
 var walk = function(path) {
     fs.readdirSync(path).forEach(function(file) {
         var newPath = path + '/' + file;
         var stat = fs.statSync(newPath);
         if (stat.isFile()) {
-            if (/(.*)\.(js$|coffee$)/.test(file)) {
+            if (/(.*)Routes\.(js$|coffee$)/.test(file)) {
                 require(newPath)(app, passport);
             }
         // We skip the app/routes/middlewares directory as it is meant to be

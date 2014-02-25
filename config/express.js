@@ -48,7 +48,7 @@ module.exports = function(app, passport, db) {
     // set .dust as the default extension
     app.set('view engine', 'dust');
     // Set views path, template engine and default layout
-    app.set('views', config.root + '/app/views');
+    app.set('views', config.root + '/app');
 
     // Enable jsonp
     app.enable('jsonp callback');
