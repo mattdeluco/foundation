@@ -59,11 +59,22 @@
   <script type="text/javascript" src="/js/filters.js"></script>
 
   <!-- Angular Services -->
-  <script type="text/javascript" src="/js/services/global.js"></script>
+  <script type="text/javascript" src="/js/GlobalService.js"></script>
 
   <!-- Angular Controllers -->
-  <script type="text/javascript" src="/js/controllers/header.js"></script>
-  <script type="text/javascript" src="/js/controllers/index.js"></script>
+  <script type="text/javascript" src="/js/index/HeaderController.js"></script>
+  <script type="text/javascript" src="/js/index/IndexController.js"></script>
+
+  <!-- Articles -->
+  <script type="text/javascript" src="/js/articles/ArticleRoutes.js"></script>
+  <script type="text/javascript" src="/js/articles/ArticleService.js"></script>
+  <script type="text/javascript" src="/js/articles/ArticleController.js"></script>
+
+  <!-- Users -->
+  <!--
+  <script type="text/javascript" src="/js/articles/UserService.js"></script>
+  <script type="text/javascript" src="/js/articles/UserController.js"></script>
+  -->
 
   <!-- Angular Init -->
   <script type="text/javascript" src="/js/init.js"></script>
