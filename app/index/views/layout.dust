@@ -53,22 +53,22 @@
   <script type="text/javascript" src="/lib/angular-ui-utils/ui-utils.js"></script>
 
   <!-- Angular Components -->
-  <script type="text/javascript" src="/js/app.js"></script>
-  <script type="text/javascript" src="/js/config.js"></script>
-  <script type="text/javascript" src="/js/directives.js"></script>
-  <script type="text/javascript" src="/js/filters.js"></script>
+  <script type="text/javascript" src="/client/app.js"></script>
+  <script type="text/javascript" src="/client/config.js"></script>
+  <script type="text/javascript" src="/client/directives.js"></script>
+  <script type="text/javascript" src="/client/filters.js"></script>
 
   <!-- Angular Services -->
-  <script type="text/javascript" src="/js/GlobalService.js"></script>
+  <script type="text/javascript" src="/client/GlobalService.js"></script>
 
   <!-- Angular Controllers -->
-  <script type="text/javascript" src="/js/index/HeaderController.js"></script>
-  <script type="text/javascript" src="/js/index/IndexController.js"></script>
+  <script type="text/javascript" src="/client/index/HeaderController.js"></script>
+  <script type="text/javascript" src="/client/index/IndexController.js"></script>
 
   <!-- Articles -->
-  <script type="text/javascript" src="/js/articles/ArticleRoutes.js"></script>
-  <script type="text/javascript" src="/js/articles/ArticleService.js"></script>
-  <script type="text/javascript" src="/js/articles/ArticleController.js"></script>
+  <script type="text/javascript" src="/client/articles/ArticleRoutes.js"></script>
+  <script type="text/javascript" src="/client/articles/ArticleService.js"></script>
+  <script type="text/javascript" src="/client/articles/ArticleController.js"></script>
 
   <!-- Users -->
   <!--
@@ -77,7 +77,7 @@
   -->
 
   <!-- Angular Init -->
-  <script type="text/javascript" src="/js/init.js"></script>
+  <script type="text/javascript" src="/client/init.js"></script>
 
   <script>
     var site = {
