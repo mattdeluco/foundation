@@ -20,11 +20,7 @@ module.exports = function(app, passport, db) {
     app.locals.cache = 'memory';
 
     app.locals({
-        site: {
-            title: 'MEAN',
-            tagline: 'dustjs-linkedin fork',
-            env: process.env.NODE_ENV
-        }
+        env: process.env.NODE_ENV
     });
 		
     // Should be placed before express.static

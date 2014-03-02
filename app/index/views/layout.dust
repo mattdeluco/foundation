@@ -8,15 +8,15 @@
   <link rel="shortcut icon" type="image/x-icon" href="/img/icons/favicon.ico">
   <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap-theme.css">
-  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/client/index/styles/common.css">
 </head>
 
-<body ng-app="mean">
+<body>
 
-  <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-ng-include="'/views/header.html'">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-ng-include="'/client/index/views/header.html'">
   </nav>
 
-  <div class="container">
+  <section class="container">
 
     {#flash.error}
     <div class="row">
@@ -31,16 +31,16 @@
     </div>
     {/flash.error}
 
-    {+body /}
+    <section class="content">
+        {+body /}
+    </section>
 
-  </div>
-
-  <div class="container">
     <hr/>
     <footer class="footer pull-right">
-      {site.title} - {site.tagline} ({site.env})
+      {env}
     </footer>
-  </div>
+
+  </section>
 
   <script type="text/javascript" src="/lib/jquery/dist/jquery.js"></script>
   <script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -50,7 +50,7 @@
   <script type="text/javascript" src="/lib/angular-resource/angular-resource.js"></script>
   <script type="text/javascript" src="/lib/angular-cookies/angular-cookies.js"></script>
   <script type="text/javascript" src="/lib/angular-bootstrap/ui-bootstrap.js"></script>
-  <script type="text/javascript" src="/lib/angular-ui-utils/ui-utils.js"></script>
+  <script type="text/javascript" src="/lib/angular-ui-router/release/angular-ui-router.js"></script>
 
   <!-- Angular Components -->
   <script type="text/javascript" src="/client/app.js"></script>
@@ -61,14 +61,17 @@
   <!-- Angular Services -->
   <script type="text/javascript" src="/client/GlobalService.js"></script>
 
-  <!-- Angular Controllers -->
+  <!-- Index -->
+  <script type="text/javascript" src="/client/index/IndexRoutes.js"></script>
   <script type="text/javascript" src="/client/index/HeaderController.js"></script>
   <script type="text/javascript" src="/client/index/IndexController.js"></script>
 
   <!-- Articles -->
+  <!--
   <script type="text/javascript" src="/client/articles/ArticleRoutes.js"></script>
   <script type="text/javascript" src="/client/articles/ArticleService.js"></script>
   <script type="text/javascript" src="/client/articles/ArticleController.js"></script>
+  -->
 
   <!-- Users -->
   <!--
@@ -78,14 +81,6 @@
 
   <!-- Angular Init -->
   <script type="text/javascript" src="/client/init.js"></script>
-
-  <script>
-    var site = {
-      title: '{site.title}',
-      tagline: '{site.tagline}',
-      env: '{site.env}'
-    };
-  </script>
 
 </body>
 

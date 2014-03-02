@@ -6,7 +6,11 @@ angular.module('mean.system').factory('Global', [
         var _this = this;
         _this._data = {
             user: window.user,
-            authenticated: !! window.user
+            authenticated: !! window.user,
+            site: {
+                title: 'MEAN',
+                tagline: 'dustjs-linkedin fork'
+            }
         };
 
         return _this._data;
