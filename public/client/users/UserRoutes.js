@@ -1,25 +1,26 @@
 'use strict';
 
-angular.module('mean').config(['$routeProvider',
-    function($routeProvider) {
-        $routeProvider.
-                when('/users', {
-                    templateUrl: 'users/views/list.html'
+angular.module('mean').config([
+    '$stateProvider',
+    '$urlRouterProvider',
+    function($stateProvider, $urlRouterProvider) {
+        $stateProvider.
+                state('users', {
+                    url: '/users',
+                    templateUrl: '/client/users/views/list.html'
                 }).
-                when('/users/create', {
-                    templateUrl: 'users/views/create.html'
+                state('create user', {
+                    url: '/users/create',
+                    templateUrl: '/client/users/views/create.html',
+                    controller: 'UserCtrl'
                 }).
-                when('/users/:userId/edit', {
-                    templateUrl: 'users/views/edit.html'
+                state('edit user', {
+                    url: '/users/:userId/edit',
+                    templateUrl: '/client/users/views/edit.html'
                 }).
-                when('/users/:userId', {
-                    templateUrl: 'users/views/view.html'
-                }).
-                when('/', {
-                    templateUrl: 'index/views/index.html'
-                }).
-                otherwise({
-                    redirectTo: '/'
+                state('view user', {
+                    url: '/users/:userId',
+                    templateUrl: '/client/users/views/view.html'
                 });
     }
 ]);

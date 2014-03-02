@@ -5,7 +5,9 @@ angular.module('mean', [
     'ngResource',
     'ui.bootstrap',
     'ui.router',
-    'mean.system'
+    'mean.system',
+    'mean.users'
 ]);
 
 angular.module('mean.system', []);
+angular.module('mean.users', []);

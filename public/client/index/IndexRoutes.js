@@ -5,7 +5,7 @@ angular.module('mean').config([
     '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
 
-        //$urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/');
 
         $stateProvider.
                 state('index', {

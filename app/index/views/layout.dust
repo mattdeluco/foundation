@@ -49,7 +49,7 @@
   <script type="text/javascript" src="/lib/angular-route/angular-route.js"></script>
   <script type="text/javascript" src="/lib/angular-resource/angular-resource.js"></script>
   <script type="text/javascript" src="/lib/angular-cookies/angular-cookies.js"></script>
-  <script type="text/javascript" src="/lib/angular-bootstrap/ui-bootstrap.js"></script>
+  <script type="text/javascript" src="/lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
   <script type="text/javascript" src="/lib/angular-ui-router/release/angular-ui-router.js"></script>
 
   <!-- Angular Components -->
@@ -66,17 +66,16 @@
   <script type="text/javascript" src="/client/index/HeaderController.js"></script>
   <script type="text/javascript" src="/client/index/IndexController.js"></script>
 
+  <!-- Users -->
+  <script type="text/javascript" src="/client/users/UserRoutes.js"></script>
+  <script type="text/javascript" src="/client/users/UserService.js"></script>
+  <script type="text/javascript" src="/client/users/UserController.js"></script>
+
   <!-- Articles -->
   <!--
   <script type="text/javascript" src="/client/articles/ArticleRoutes.js"></script>
   <script type="text/javascript" src="/client/articles/ArticleService.js"></script>
   <script type="text/javascript" src="/client/articles/ArticleController.js"></script>
-  -->
-
-  <!-- Users -->
-  <!--
-  <script type="text/javascript" src="/js/articles/UserService.js"></script>
-  <script type="text/javascript" src="/js/articles/UserController.js"></script>
   -->
 
   <!-- Angular Init -->
