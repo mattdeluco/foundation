@@ -7,7 +7,8 @@ angular.module('mean').config([
         $stateProvider.
                 state('users', {
                     url: '/users',
-                    templateUrl: '/client/users/views/list.html'
+                    templateUrl: '/client/users/views/list.html',
+                    controller: 'UserCtrl'
                 }).
                 state('create user', {
                     url: '/users/create',
@@ -16,11 +17,13 @@ angular.module('mean').config([
                 }).
                 state('edit user', {
                     url: '/users/:userId/edit',
-                    templateUrl: '/client/users/views/edit.html'
+                    templateUrl: '/client/users/views/edit.html',
+                    controller: 'UserCtrl'
                 }).
                 state('view user', {
                     url: '/users/:userId',
-                    templateUrl: '/client/users/views/view.html'
+                    templateUrl: '/client/users/views/view.html',
+                    controller: 'UserCtrl'
                 });
     }
 ]);

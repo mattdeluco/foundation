@@ -6,6 +6,19 @@
 var mongoose = require('mongoose'),
     User = mongoose.model('User');
 
+
+exports.users = function(req, res) {
+    User.find().exec(function(err, users) {
+        if (err) {
+            res.render('error', {
+                'status': 500
+            });
+        }
+
+        res.jsonp(users);
+    });
+};
+
 /**
  * Auth callback
  */
