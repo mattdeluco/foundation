@@ -33,23 +33,17 @@ module.exports = function(passport) {
     // local signup
     passport.use('local-signup', new LocalStrategy({
             usernameField: 'email',
-            passwordField: 'password',
-            passReqToCallback: true
+            passwordField: 'password'
         },
-        function(req, email, password, done) {
-            User.findOne({
-                email: email
-            }, function(err, user) {
-                if (err)
-                    return done(err);
+        function(email, password, done) {
+            User.findOne({email: email}, function(err, user) {
+                if (err) return done(err);
 
                 if (user) {
-                    return done(null, false, req.flash('authMessage',
-                            {
-                                type: 'alert-warning',
-                                message: 'That email is already taken.'
-                            }
-                    ));
+                    return done(null, false, {alert: {
+                        type: 'danger',
+                        msg: 'That email already exists.'
+                    }});
                 }
 
                 var newUser = new User();
@@ -57,14 +51,27 @@ module.exports = function(passport) {
                 newUser.password = password;
 
                 newUser.save(function(err) {
-                    if (err)
-                        return done(null, false, req.flash('authMessage',
-                                {
-                                    type: 'alert-danger',
-                                    message: 'Error signing up: ' + err.message
+                    if (err) {
+                        return done(err, false, {alert: {
+                            type: 'danger',
+                            message: 'Error signing up: ' + err.message
+                        }});
+                    }
+                    // Retrieve the new user so model select rules are applied
+                    // and things like salt and hashed_password aren't included
+                    User.findOne({ _id: newUser._id }, function(err, user) {
+                                if (err) {
+                                    return done(err, false, {alert: {
+                                        type: 'danger',
+                                        message: 'Could not retrieve new user!'
+                                    }});
                                 }
-                        ));
-                    return done(null, newUser);
+                                return done(null, user, {alert: {
+                                    type: 'success',
+                                    message: 'Your account has been created, and you have been logged in.  Welcome!'
+                                }});
+                            }
+                    );
                 });
             });
         }

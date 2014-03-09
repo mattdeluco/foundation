@@ -13,20 +13,17 @@ angular.module('mean.users').controller('UserCtrl', [
 
         $scope.save = function(user) {
             Users.save([], user,
-                    function(new_user, postResponseHeaders) {
+                    function(resource, headers) {
+                        console.log(resource);
                         $scope.alerts.push({
                             type: 'success',
-                            msg: 'Created user with email: ' + new_user.email
+                            msg: 'Account created, welcome!'
                         });
-                        console.log(postResponseHeaders());
-                        $location.url('/users/' + new_user._id);
+                        $location.url('/users/' + resource.user_id);
                     },
-                    function(postResponse) {
-                        $scope.alerts.push({
-                            type: 'danger',
-                            msg: 'Error creating user: ...'
-                        });
-                        console.log(postResponse());
+                    function(response) {
+                        $scope.alerts.push(response.data.alert);
+                        $location.url('/users/create');
                     }
             );
         };
