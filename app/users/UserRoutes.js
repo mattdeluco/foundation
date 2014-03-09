@@ -24,17 +24,7 @@ module.exports = function(app, passport) {
     }));
     */
     app.post('/users', function(req, res, next) {
-        passport.authenticate('local-signup', function(err, user_id, info) {
-            if (err) return next(err);
-            if (!user_id) return res.json(500, info);
-            req.login(user_id, function(err) {
-                if (err) return next(err);
-                return res.json(201, {
-                    user_id: req.user._id,
-                    info: info
-                });
-            });
-        })(req, res, next);
+        users.create(req, res, next, passport);
     });
 
     app.post('/signin', passport.authenticate('local', {

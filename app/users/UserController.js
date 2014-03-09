@@ -19,6 +19,20 @@ exports.users = function(req, res) {
     });
 };
 
+exports.create = function(req, res, next, passport) {
+    passport.authenticate('local-signup', function(err, user_id, info) {
+        if (err) return next(err);
+        if (!user_id) return res.json(500, info);
+        req.login(user_id, function(err) {
+            if (err) return next(err);
+            return res.json(201, {
+                user_id: req.user._id,
+                info: info
+            });
+        });
+    })(req, res, next);
+};
+
 /**
  * Auth callback
  */
