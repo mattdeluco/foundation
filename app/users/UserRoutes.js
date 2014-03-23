@@ -5,10 +5,7 @@ var user = require('./UserController');
 
 module.exports = function(app, passport) {
 
-    app.post('/user', function(req, res, next) {
-        user.create(req, res, next, passport);
-    });
-
+    app.post('/user', user.create);
     app.get('/user', user.me);
     app.put('/user', user.update);
 

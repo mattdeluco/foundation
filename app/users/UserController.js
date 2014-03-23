@@ -3,21 +3,48 @@
 /**
  * Module dependencies.
  */
-var _ = require('lodash');
+var _ = require('lodash'),
+    mongoose = require('mongoose'),
+    User = mongoose.model('User');
 
 
-exports.create = function(req, res, next, passport) {
-    passport.authenticate('local-signup', function(err, user_id, info) {
-        if (err) return next(err);
-        if (!user_id) return res.json(500, info);
-        req.login(user_id, function(err) {
-            if (err) return next(err);
-            return res.json(201, {
-                user_id: req.user._id,
-                info: info
+exports.create = function(req, res) {
+    var user = new User(req.body);
+
+    user.save(function(err) {
+        if (err) {
+            return res.jsonp(500, {
+                alert: {
+                    type: 'danger',
+                    msg: 'Error saving user: ' + err.message
+                }
+            });
+        }
+
+        User.findOne({_id: user._id}, function(err, user) {
+            if (err) {
+                return res.jsonp(500, {
+                    alert: {
+                        type: 'danger',
+                        msg: 'Error loading new user: ' + err.message
+                    }
+                });
+            }
+
+            req.login(user, function(err) {
+                if (err) {
+                    return res.json(401, {
+                        alert: {
+                            type: 'danger',
+                            msg: 'Could not sign in new user: ' + err.message
+                        }
+                    });
+                }
+
+                return res.jsonp(201, user);
             });
         });
-    })(req, res, next);
+    });
 };
 
 /**
