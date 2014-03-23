@@ -9,17 +9,17 @@
     <a class="navbar-brand" href="/">{{global.site.title}}</a>
   </div>
 
-  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <form action="/signin" class="navbar-form navbar-right" role="login">
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" data-ng-controller="UserCtrl">
+    <form class="navbar-form navbar-right" role="login">
       <div class="form-group">
         <label class="sr-only" for="email">Email address</label>
-        <input type="text" id="email" class="form-control" placeholder="Email Address" name="email"/>
+        <input type="text" data-ng-model="user.email" id="email" class="form-control" placeholder="Email Address" name="email"/>
       </div>&nbsp;
       <div class="form-group">
         <label class="sr-only" for="password">Password</label>
-        <input type="password" id="password" class="form-control" placeholder="Password" name="password"/>
+        <input type="password" data-ng-model="user.password" id="password" class="form-control" placeholder="Password" name="password"/>
       </div>&nbsp;
-      <button type="submit" class="btn btn-default">Sign In</button>&nbsp;
+      <button class="btn btn-default" data-ng-click="signin(user)">Sign In</button>&nbsp;
     </form>
   </div>
 </div>

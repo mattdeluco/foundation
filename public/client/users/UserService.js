@@ -3,6 +3,10 @@
 angular.module('mean.users').factory('Users', [
     '$resource',
     function($resource) {
-        return $resource('users/:userId',{userId: '@_id'},{update: {method: 'PUT'}});
+        return $resource('/user', {}, {
+            update: {method: 'PUT'},
+            save: {method: 'POST'},
+            signin: {method: 'POST', url: '/signin'}
+        });
     }
 ]);

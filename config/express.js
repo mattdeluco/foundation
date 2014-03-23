@@ -8,7 +8,8 @@ var express = require('express'),
     mongoStore = require('connect-mongo')(express),
     flash = require('connect-flash'),
     helpers = require('view-helpers'),
-    config = require('./config');
+    config = require('./config'),
+    _ = require('lodash');
 
 module.exports = function(app, passport, db) {
     app.set('showStackError', true);
@@ -50,6 +51,10 @@ module.exports = function(app, passport, db) {
     app.enable('jsonp callback');
 
     app.configure(function() {
+        // Setting the fav icon and static folder
+        app.use(express.favicon());
+        app.use(express.static(config.root + '/public'));
+
         // The cookieParser should be above session
         app.use(express.cookieParser());
 
@@ -83,10 +88,6 @@ module.exports = function(app, passport, db) {
 
         // Routes should be at the last
         app.use(app.router);
-
-        // Setting the fav icon and static folder
-        app.use(express.favicon());
-        app.use(express.static(config.root + '/public'));
 
         // Assume "not found" in the error msgs is a 404. this is somewhat
         // silly, but valid, you can do whatever you like, set properties,

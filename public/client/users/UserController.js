@@ -11,19 +11,39 @@ angular.module('mean.users').controller('UserCtrl', [
             $scope.alerts.splice(index, 1);
         };
 
+        $scope.user = Users.get({},
+            function(resource, headers) {},
+            function(respnose) {});
+
+        $scope.signin = function(user) {
+            Users.signin([], user,
+                function(resource, headers) {
+                    $scope.alerts.push({
+                        type: 'success',
+                        msg: 'Welcome back!'
+                    });
+                    $location.url('/me');
+                },
+                function(response) {
+                    $scope.alerts.push(response.data.alert);
+                    // TODO on redirect this should display the signin form
+                    $location.url('/signup');
+                }
+            );
+        };
+
         $scope.save = function(user) {
             Users.save([], user,
                     function(resource, headers) {
-                        console.log(resource);
                         $scope.alerts.push({
                             type: 'success',
                             msg: 'Account created, welcome!'
                         });
-                        $location.url('/users/' + resource.user_id);
+                        $location.url('/me');
                     },
                     function(response) {
                         $scope.alerts.push(response.data.alert);
-                        $location.url('/users/create');
+                        $location.url('/signup');
                     }
             );
         };
