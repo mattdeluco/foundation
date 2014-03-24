@@ -8,10 +8,10 @@ angular.module('mean').config([
         $urlRouterProvider.otherwise('/');
 
         $stateProvider.
-                state('index', {
-                    url: '/',
-                    templateUrl: 'client/index/views/index.html'
-                });
-
+            state('index', {
+                url: '/',
+                templateUrl: '/client/index/views/index.html',
+                controller: 'IndexController'
+            });
     }
 ]);
