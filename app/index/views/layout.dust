@@ -13,8 +13,7 @@
 
 <body>
 
-  <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-ng-include="'/client/index/views/header.html'">
-  </nav>
+  <section data-ng-include="'/client/index/views/header.html'"></section>
 
   <section class="container">
 
