@@ -5,27 +5,27 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         watch: {
-            jade: {
-                files: ['app/views/**'],
+            dust: {
+                files: ['app/**/views/*.dust'],
                 options: {
-                    livereload: true,
-                },
+                    livereload: true
+                }
             },
             js: {
-                files: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/js/**', 'test/**/*.js'],
+                files: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/**/*.js', 'test/**/*.js'],
                 tasks: ['jshint'],
                 options: {
-                    livereload: true,
-                },
+                    livereload: true
+                }
             },
             html: {
-                files: ['public/views/**'],
+                files: ['public/**/views/*.html'],
                 options: {
-                    livereload: true,
-                },
+                    livereload: true
+                }
             },
             css: {
-                files: ['public/css/**'],
+                files: ['public/**/styles/*.css'],
                 options: {
                     livereload: true
                 }
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
         },
         jshint: {
             all: {
-                src: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/js/**', 'test/**/*.js'],
+                src: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/**/*.js', 'test/**/*.js'],
                 options: {
                     jshintrc: true
                 }
@@ -66,7 +66,7 @@ module.exports = function(grunt) {
                 reporter: 'spec',
                 require: 'server.js'
             },
-            src: ['test/mocha/**/*.js']
+            src: ['app/**/tests/*Test.js']
         },
         env: {
             test: {
@@ -95,6 +95,9 @@ module.exports = function(grunt) {
     //Default task(s).
     grunt.registerTask('default', ['jshint', 'concurrent']);
 
-    //Test task.
+    //Test all task.
     grunt.registerTask('test', ['env:test', 'mochaTest', 'karma:unit']);
+
+    // Test app task
+    grunt.registerTask('test app', ['env:test', 'mochaTest']);
 };

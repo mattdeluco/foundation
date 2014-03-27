@@ -29,7 +29,7 @@ module.exports = function(passport) {
     });
 
     // Use local strategy
-    passport.use('local-signin', new LocalStrategy({
+    passport.use(new LocalStrategy({
             usernameField: 'email',
             passwordField: 'password'
         },

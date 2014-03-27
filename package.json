@@ -1,12 +1,12 @@
 {
-  "name": "mean",
-  "description": "MEAN - A Modern Stack: MongoDB, ExpressJS, AngularJS, NodeJS. (BONUS: Passport User Support).",
-  "version": "0.1.2",
+  "name": "snap",
+  "description": "It's a SNAP!  A Modern Stack: MongoDB/MongooseJS, ExpressJS, AngularJS, NodeJS.",
+  "version": "0.0.1",
   "private": false,
-  "author": "Amos Haviv",
+  "author": "Matt DeLuco",
   "repository": {
     "type": "git",
-    "url": "https://github.com/linnovate/mean.git"
+    "url": "https://github.com/mattdeluco/snap.git"
   },
   "engines": {
     "node": "0.10.x",
@@ -23,7 +23,6 @@
     "dustjs-helpers": "~1.1.1",
     "adaro": "~0.1.5",
     "bcrypt": "~0.7.7",
-    "crypto": "0.0.3",
     "mongoose": "~3.8.3",
     "connect-mongo": "~0.4.0",
     "connect-flash": "~0.1.1",

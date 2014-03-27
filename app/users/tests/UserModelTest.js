@@ -16,15 +16,17 @@ describe('<Unit Test>', function() {
         before(function(done) {
             user = new User({
                 name: 'Full name',
-                email: 'test@test.com',
+                email: 'test@example.com',
                 username: 'user',
-                password: 'password'
+                password: 'password',
+                provider: 'local'
             });
             user2 = new User({
                 name: 'Full name',
-                email: 'test@test.com',
+                email: user.email,
                 username: 'user',
-                password: 'password'
+                password: 'password',
+                provider: 'local'
             });
 
             done();
@@ -42,7 +44,14 @@ describe('<Unit Test>', function() {
                 user.save(done);
             });
 
-            it('should fail to save an existing user again', function(done) {
+            it('should save a new user with a different email address', function(done) {
+                user.save();
+                var user3 = new User(user2);
+                user3.email = 'test3@example.com';
+                user3.save(done);
+            });
+
+            it('should fail to save a new user with an existing email address', function(done) {
                 user.save();
                 return user2.save(function(err) {
                     should.exist(err);
