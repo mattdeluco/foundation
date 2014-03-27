@@ -51,6 +51,7 @@ module.exports = function(passport) {
                     });
                 }
 
+                user.hashed_password = undefined;
                 return done(null, user);
             });
         }

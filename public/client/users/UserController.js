@@ -2,9 +2,12 @@
 
 angular.module('mean.users').controller('UserCtrl', [
     '$scope',
-    '$location',
+    '$state',
+    'Global',
     'Users',
-    function ($scope, $location, Users) {
+    function ($scope, $state, Global, Users) {
+        $scope.global = Global;
+
         $scope.alerts = [];
 
         $scope.closeAlert = function(index) {
@@ -18,16 +21,32 @@ angular.module('mean.users').controller('UserCtrl', [
         $scope.signin = function(user) {
             Users.signin([], user,
                 function(resource, headers) {
+                    $scope.global.user = resource.user;
+                    $scope.global.authenticated = true;
                     $scope.alerts.push({
                         type: 'success',
                         msg: 'Welcome back!'
                     });
-                    $location.url('/me');
+                    delete $scope.user;
+                    $state.transitionTo('me');
                 },
                 function(response) {
                     $scope.alerts.push(response.data.alert);
                     // TODO on redirect this should display the signin form
-                    $location.url('/signup');
+                    $state.transitionTo('signup');
+                }
+            );
+        };
+
+        $scope.signout = function() {
+            Users.signout([], null,
+                function(resource, headers) {
+                    $scope.global.user = null;
+                    $scope.global.authenticated = false;
+                    $state.transitionTo('home');
+                },
+                function(response) {
+
                 }
             );
         };
@@ -39,11 +58,11 @@ angular.module('mean.users').controller('UserCtrl', [
                             type: 'success',
                             msg: 'Account created, welcome!'
                         });
-                        $location.url('/me');
+                        $state.transitionTo('me');
                     },
                     function(response) {
                         $scope.alerts.push(response.data.alert);
-                        $location.url('/signup');
+                        $state.transitionTo('signup');
                     }
             );
         };

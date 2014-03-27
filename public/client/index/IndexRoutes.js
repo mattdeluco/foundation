@@ -8,7 +8,7 @@ angular.module('mean').config([
         $urlRouterProvider.otherwise('/');
 
         $stateProvider.
-            state('index', {
+            state('home', {
                 url: '/',
                 templateUrl: '/client/index/views/index.html',
                 controller: 'IndexController'

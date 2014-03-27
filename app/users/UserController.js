@@ -104,5 +104,7 @@ exports.authCallback = function(req, res) {
  * Session
  */
 exports.session = function(req, res) {
-    res.redirect('/');
+    res.jsonp({
+        user: req.user
+    });
 };
