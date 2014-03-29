@@ -10,7 +10,7 @@ module.exports = function(app, passport) {
     app.put('/user', user.update);
 
     // Local authentication
-    app.post('/signin', passport.authenticate('local-signin', {
+    app.post('/signin', passport.authenticate('local', {
         //failureRedirect: '/signin',
         failureFlash: true
     }), user.session);

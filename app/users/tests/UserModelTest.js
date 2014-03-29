@@ -35,20 +35,14 @@ describe('<Unit Test>', function() {
         describe('Method Save', function() {
             it('should begin with no users', function(done) {
                 User.find({}, function(err, users) {
+                    if (err) return done(err);
                     users.should.have.length(0);
                     done();
                 });
             });
 
-            it('should be able to save whithout problems', function(done) {
+            it('should save without error', function(done) {
                 user.save(done);
-            });
-
-            it('should save a new user with a different email address', function(done) {
-                user.save();
-                var user3 = new User(user2);
-                user3.email = 'test3@example.com';
-                user3.save(done);
             });
 
             it('should fail to save a new user with an existing email address', function(done) {
@@ -59,10 +53,56 @@ describe('<Unit Test>', function() {
                 });
             });
 
-            it('should be able to show an error when try to save without name', function(done) {
-                user.name = '';
-                return user.save(function(err) {
+            it('should save a new user with a different email address', function(done) {
+                user.save();
+                var user3 = new User(user2);
+                user3.email = 'test3@example.com';
+                user3.save(done);
+            });
+
+            it('should error on empty name', function(done) {
+                var userx = new User(user);
+                userx.name = '';
+                return userx.save(function(err) {
                     should.exist(err);
+                    done();
+                });
+            });
+
+            it('should error on empty email', function(done) {
+                var userx = new User(user);
+                userx.email = '';
+                return userx.save(function(err) {
+                    should.exist(err);
+                    done();
+                });
+            });
+
+            it('should error on empty password', function(done) {
+                var userx = new User(user);
+                userx.password = '';
+                return userx.save(function(err) {
+                    should.exist(err);
+                    done();
+                });
+            });
+        });
+
+        describe('Password', function() {
+            it('should store the password as a bcrypt hash', function(done) {
+                user.save();
+                User.findOne({_id: user.id}, '+hashed_password', function(err, user) {
+                    if (err) return done(err);
+                    user.hashed_password.should.startWith('$2a$10$');
+                    done();
+                });
+            });
+
+            it('should not return hashed_password in a query', function(done) {
+                user.save();
+                User.findOne({_id: user.id}, function(err, user) {
+                    if (err) return done(err);
+                    user.should.not.have.property('hashed_password');
                     done();
                 });
             });

@@ -21,10 +21,6 @@ var UserSchema = new Schema({
         type: String,
         select: false
     },
-    salt: {
-        type: String,
-        select: false
-    },
     provider: String,
     facebook: {},
     twitter: {},
