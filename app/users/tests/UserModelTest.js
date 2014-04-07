@@ -35,7 +35,7 @@ describe('User Model', function() {
     describe('Method Save', function() {
         it('should begin with no users', function(done) {
             User.find({}, function(err, users) {
-                if (err) return done(err);
+                should.not.exist(err);
                 users.should.have.length(0);
                 done();
             });
@@ -92,7 +92,7 @@ describe('User Model', function() {
         it('should store the password as a bcrypt hash', function(done) {
             user.save();
             User.findOne({_id: user.id}, '+hashed_password', function(err, user) {
-                if (err) return done(err);
+                should.not.exist(err);
                 user.hashed_password.should.startWith('$2a$10$');
                 done();
             });
@@ -101,7 +101,7 @@ describe('User Model', function() {
         it('should not return hashed_password in a query', function(done) {
             user.save();
             User.findOne({_id: user.id}, function(err, user) {
-                if (err) return done(err);
+                should.not.exist(err);
                 user.should.not.have.property('hashed_password');
                 done();
             });

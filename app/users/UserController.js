@@ -8,15 +8,14 @@ var _ = require('lodash'),
     User = mongoose.model('User');
 
 
-exports.create = function(req, res) {
+exports.create_user = function(req, res) {
     var user = new User(req.body);
 
     user.save(function(err) {
         if (err) {
-            return res.jsonp(500, {
-                alert: {
-                    type: 'danger',
-                    msg: 'Error saving user: ' + err.message
+            return res.jsonp(400, {
+                error: {
+                    message: 'Error saving user: ' + err.message
                 }
             });
         }
@@ -24,9 +23,8 @@ exports.create = function(req, res) {
         User.findOne({_id: user._id}, function(err, user) {
             if (err) {
                 return res.jsonp(500, {
-                    alert: {
-                        type: 'danger',
-                        msg: 'Error loading new user: ' + err.message
+                    error: {
+                        message: 'Error loading new user: ' + err.message
                     }
                 });
             }
@@ -34,24 +32,16 @@ exports.create = function(req, res) {
             req.login(user, function(err) {
                 if (err) {
                     return res.json(401, {
-                        alert: {
-                            type: 'danger',
-                            msg: 'Could not sign in new user: ' + err.message
+                        error: {
+                            message: 'Could not sign in new user: ' + err.message
                         }
                     });
                 }
 
-                return res.jsonp(201, user);
+                return res.jsonp(201, {user: user});
             });
         });
     });
-};
-
-/**
- * Send User
- */
-exports.me = function(req, res) {
-    res.jsonp(req.user || null);
 };
 
 exports.update = function(req, res) {
@@ -73,38 +63,24 @@ exports.update = function(req, res) {
     });
 };
 
-/**
- * Show login form
- */
-exports.signin = function(req, res) {
-    res.jsonp(401, {
-        alert: {
-            type: 'danger',
-            msg: 'Could not sign in.'
-        }
-    });
+exports.me = function(req, res) {
+    res.jsonp({ user: req.user });
 };
 
-/**
- * Logout
- */
+exports.signin = function(req, res) {
+    var flash_message = req.flash('error');
+
+    if (flash_message.length) {
+        return res.jsonp(400, {
+            error: { message: flash_message }
+        });
+    }
+
+    res.jsonp({ user: req.user });
+};
+
 exports.signout = function(req, res) {
     req.logout();
     res.redirect('/');
 };
 
-/**
- * Auth callback
- */
-exports.authCallback = function(req, res) {
-    res.redirect('/');
-};
-
-/**
- * Session
- */
-exports.session = function(req, res) {
-    res.jsonp({
-        user: req.user
-    });
-};

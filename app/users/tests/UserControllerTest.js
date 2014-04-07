@@ -16,74 +16,86 @@ var user = {
     password: 'guest'
 };
 
-var agent = request.agent(app);
-
 describe('User Controller', function() {
 
     before(function(done) {
         done();
     });
 
-    describe('user.create', function() {
+    describe('Sign up', function() {
 
         var url = '/user';
+        var agent = request.agent(app);
 
-        it('should create a new user', function(done) {
-            request(app).post(url).send(user).end(function(err, res) {
-                should.not.exist(err);
-                res.should.have.status(201);
-                res.body.should.have.properties('name', 'email');
-                res.body.should.not.have.property('hashed_password');
-                done();
-            });
-        });
-
-        // TODO fix this - posts an existing email address
-        it('should return an http 500 and error message', function(done) {
-            var user = {email: 'foo@example.com', password: ''};
-
-            request(app).post(url).send(user).end(function(err, res) {
-                should.not.exist(err);
-                res.should.have.status(500);
-                res.body.should.have.property('alert');
-                res.body.alert.should.have.properties('type', 'msg');
-                done();
-            });
-        });
-
-    });
-
-    describe('user.signin', function() {
-
-        var url = '/signin';
-
-        it('should signin and return a user object', function(done) {
+        it('should sign up a new user', function(done) {
             agent
                 .post(url)
-                .send(_.omit(user, 'name'))
-                .expect(200)
+                .send(user)
                 .end(function(err, res) {
                     should.not.exist(err);
+                    res.should.have.status(201);
                     res.body.should.have.property('user');
-                    res.body.user.should.have.properties('name', 'email');
+                    res.body.user.should.have.property('name', user.name);
+                    res.body.user.should.have.property('email', user.email);
+                    res.body.user.should.not.have.property('hashed_password');
                     done();
                 });
         });
-    });
 
-    describe('user.me', function() {
-
-        var url = '/user';
-
-        it('should return a user object', function(done) {
+        it('should be logged in after signing up', function(done) {
             agent
                 .get(url)
                 .expect(200)
                 .end(function(err, res) {
                     should.not.exist(err);
-                    res.body.should.have.properties('name', 'email');
+                    res.body.should.have.property('user');
+                    res.body.user.should.have.property('name', user.name);
+                    res.body.user.should.have.property('email', user.email);
+                    res.body.user.should.not.have.property('hashed_password');
                     done();
                 });
+        });
+
+        it('should return an http 400 and error message', function(done) {
+            var user = {email: 'foo@example.com', password: ''};
+
+            request(app)
+                .post(url)
+                .send(user)
+                .end(function(err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(400);
+                    res.body.should.have.property('error');
+                    res.body.error.should.have.property('message');
+                    done();
+                });
+        });
+
+    });
+
+    describe('Sign in', function() {
+
+        var agent = request.agent(app);
+
+        it('should signin and return a user object', function(done) {
+            agent
+                .post('/signin')
+                .send(_.omit(user, 'name'))
+                .expect(200)
+                .end(function(err, res) {
+                    should.not.exist(err);
+                    res.body.should.have.property('user');
+                    res.body.user.should.have.property('name', user.name);
+                    res.body.user.should.have.property('email', user.email);
+                    res.body.user.should.not.have.property('hashed_password');
+                    done();
+                });
+        });
+
+        it('should have access to the user object', function(done) {
+            agent
+                .get('/user')
+                .expect(200, done)
         });
     });
 
