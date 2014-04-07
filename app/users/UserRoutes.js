@@ -10,10 +10,21 @@ module.exports = function(app, passport) {
     app.put('/user', user.update);
 
     // Local authentication
-    app.post('/signin', passport.authenticate('local', {
-        //failureFlash: true
-        failureMessage: "Blart!"
-    }), user.signin);
+    app.post(
+        '/signin',
+        function(req, res, next) {
+            passport.authenticate('local', function(err, user, info) {
+                if (err) return next(err);
+                if (!user) {
+                    return res.jsonp(401, { error: info });
+                }
+                req.login(user, function(err) {
+                    if (err) return next(err);
+                    return res.jsonp({ user: user });
+                });
+            })(req, res, next);
+        }
+    );
 
     app.get('/signout', user.signout);
 

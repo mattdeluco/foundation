@@ -81,6 +81,6 @@ exports.signin = function(req, res) {
 
 exports.signout = function(req, res) {
     req.logout();
-    res.redirect('/');
+    res.jsonp({ user: req.user });
 };
 

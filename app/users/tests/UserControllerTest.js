@@ -73,11 +73,11 @@ describe('User Controller', function() {
 
     });
 
-    describe('Sign in', function() {
+    describe('Sign in, Sign out', function() {
 
         var agent = request.agent(app);
 
-        it('should signin and return a user object', function(done) {
+        it('should sign in and return a user object', function(done) {
             agent
                 .post('/signin')
                 .send(_.omit(user, 'name'))
@@ -96,6 +96,34 @@ describe('User Controller', function() {
             agent
                 .get('/user')
                 .expect(200, done)
+        });
+
+        it('should return an error message on failed sign in', function(done) {
+            var user_wrong_pw = _.omit(user, ['name', 'password']);
+            user_wrong_pw.password = 'notguest';
+
+            request(app)
+                .post('/signin')
+                .send(user_wrong_pw)
+                .expect(401)
+                .end(function(err, res) {
+                    should.not.exist(err);
+                    res.body.should.have.property('error');
+                    res.body.error.should.have.property('message');
+                    done();
+                });
+        });
+
+        it('should sign out and receive an empty user object', function(done) {
+            agent
+                .get('/signout')
+                .expect(200)
+                .end(function(err, res) {
+                    should.not.exist(err);
+                    res.body.should.have.property('user');
+                    should.not.exist(res.body.user);
+                    done();
+                });
         });
     });
 
