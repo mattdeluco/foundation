@@ -54,6 +54,10 @@ describe('User Controller', function() {
                     res.body.user.should.not.have.property('hashed_password');
                     done();
                 });
+
+            agent
+                .get('/user')
+                .expect(200, done);
         });
 
         it('should return an http 400 and error message', function(done) {
@@ -95,7 +99,7 @@ describe('User Controller', function() {
         it('should have access to the user object', function(done) {
             agent
                 .get('/user')
-                .expect(200, done)
+                .expect(200, done);
         });
 
         it('should return an error message on failed sign in', function(done) {
@@ -122,6 +126,31 @@ describe('User Controller', function() {
                     should.not.exist(err);
                     res.body.should.have.property('user');
                     should.not.exist(res.body.user);
+                    done();
+                });
+        });
+    });
+
+    describe('User', function() {
+
+        var agent = request.agent(app);
+
+        it('login', function(done) {
+            agent
+                .post('/signin')
+                .send(_.omit(user, 'name'))
+                .expect(200, done);
+        });
+
+        it('should return a user object', function(done) {
+            agent
+                .get('/user')
+                .expect(200)
+                .end(function(err, res) {
+                    should.not.exist(err);
+                    res.body.should.have.property('user');
+                    res.body.user.should.have.property('name', user.name);
+                    res.body.user.should.have.property('email', user.email);
                     done();
                 });
         });
