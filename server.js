@@ -56,7 +56,7 @@ var walk = function(path) {
         var newPath = path + '/' + file;
         var stat = fs.statSync(newPath);
         if (stat.isFile()) {
-            if (/(.*)Routes\.(js$|coffee$)/.test(file)) {
+            if (/(.*)API\.(js$|coffee$)/.test(file)) {
                 require(newPath)(app, passport);
             }
         // We skip the app/routes/middlewares directory as it is meant to be

@@ -66,7 +66,7 @@
   <script type="text/javascript" src="/client/index/IndexController.js"></script>
 
   <!-- Users -->
-  <script type="text/javascript" src="/client/users/UserRoutes.js"></script>
+  <script type="text/javascript" src="/client/users/UserStates.js"></script>
   <script type="text/javascript" src="/client/users/UserService.js"></script>
   <script type="text/javascript" src="/client/users/UserController.js"></script>
 

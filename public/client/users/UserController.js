@@ -46,7 +46,7 @@ angular.module('mean.users').controller('UserCtrl', [
                     $state.transitionTo('home');
                 },
                 function(response) {
-
+                    // TODO
                 }
             );
         };
