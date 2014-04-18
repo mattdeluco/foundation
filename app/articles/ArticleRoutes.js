@@ -2,7 +2,7 @@
 
 // Articles routes use articles controller
 var articles = require('./ArticleController');
-var authorization = require('./../routes/middlewares/authorization');
+var authorization = require('./../middleware/authorization');
 
 // Article authorization helpers
 var hasAuthorization = function(req, res, next) {

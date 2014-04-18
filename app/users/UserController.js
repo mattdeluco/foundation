@@ -46,10 +46,9 @@ exports.create_user = function(req, res) {
 
 exports.update = function(req, res) {
     var user = req.user;
+    user = _.extend(user, req.body.user);
 
-    user = _.extend(user, req.body);
-
-    user.save(function(err) {
+    user.save(function(err, user /*, nr_affected */) {
         if (err) {
             return res.jsonp(500, {
                 alert: {
@@ -59,7 +58,7 @@ exports.update = function(req, res) {
             });
         }
 
-        res.jsonp(user);
+        res.jsonp({user: user});
     });
 };
 

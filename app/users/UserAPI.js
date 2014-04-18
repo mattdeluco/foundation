@@ -2,12 +2,13 @@
 
 // User routes use users controller
 var user = require('./UserController');
+var auth = require('./../middleware/authorization');
 
 module.exports = function(app, passport) {
 
     app.post('/user', user.create_user);
-    app.get('/user', user.me);
-    app.put('/user', user.update);
+    app.get('/user', auth.requiresLogin, user.me);
+    app.put('/user', auth.requiresLogin, user.update);
 
     // Local authentication
     app.post(

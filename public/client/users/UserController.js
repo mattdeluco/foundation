@@ -15,7 +15,9 @@ angular.module('mean.users').controller('UserCtrl', [
         };
 
         $scope.user = Users.get({},
-            function(resource, headers) {},
+            function(resource, headers) {
+                $scope.global.user = resource.user;
+            },
             function(respnose) {});
 
         $scope.signin = function(user) {
@@ -27,7 +29,6 @@ angular.module('mean.users').controller('UserCtrl', [
                         type: 'success',
                         msg: 'Welcome back!'
                     });
-                    delete $scope.user;
                     $state.transitionTo('me');
                 },
                 function(response) {
