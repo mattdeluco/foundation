@@ -69,7 +69,6 @@
   <script type="text/javascript" src="/client/users/UserStates.js"></script>
   <script type="text/javascript" src="/client/users/UserService.js"></script>
   <script type="text/javascript" src="/client/users/UserController.js"></script>
-  <script type="text/javascript" src="/client/users/UserDirectives.js"></script>
 
   <!-- Articles -->
   <!--
