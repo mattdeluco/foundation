@@ -16,9 +16,14 @@ angular.module('mean.users').controller('UserCtrl', [
 
         $scope.user = Users.get({},
             function(resource, headers) {
+                // TODO Need a better way of persisting the user object
                 $scope.global.user = resource.user;
+                $scope.user = resource.user;
             },
-            function(respnose) {});
+            function(response) {
+                $scope.alerts.push(response.data.alert);
+            }
+        );
 
         $scope.signin = function(user) {
             Users.signin([], user,
@@ -47,7 +52,8 @@ angular.module('mean.users').controller('UserCtrl', [
                     $state.transitionTo('home');
                 },
                 function(response) {
-                    // TODO
+                    $scope.alerts.push(response.data.alert);
+                    $state.transitionTo('home');
                 }
             );
         };
@@ -67,5 +73,22 @@ angular.module('mean.users').controller('UserCtrl', [
                     }
             );
         };
+
+        $scope.update = function(user) {
+            Users.update([], user,
+                function(resource, headers) {
+                    $scope.alerts.push({
+                        type: 'success',
+                        msg: 'Acount updated!'
+                    });
+                    $state.transitionTo('me');
+                },
+                function(response) {
+                    $scope.alerts.push(response.data.alert);
+                    $state.transitionTo('me');
+                }
+            );
+        };
+
     }
 ]);

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean').config([
+angular.module('mean.users').config([
     '$stateProvider',
     '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
@@ -15,10 +15,10 @@ angular.module('mean').config([
                     templateUrl: '/client/users/views/view.html',
                     controller: 'UserCtrl'
                 }).
-                state('me.edit', {
+                state('edit', {
                     url: '/me/edit',
                     templateUrl: '/client/users/views/edit.html',
                     controller: 'UserCtrl'
-                })
+                });
     }
 ]);

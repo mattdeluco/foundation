@@ -19,19 +19,19 @@
           <div class="form-group" data-ng-hide="signin">
             <label class="col-md-4 control-label" for="name">Name</label>
             <div class="col-md-8">
-              <input id="name" class="form-control" type="text" ng-model="user.name" placeholder="First Last" />
+              <input id="name" class="form-control" type="text" ng-model="user.name" placeholder="First Last" required />
             </div>
           </div>
           <div class="form-group">
             <label class="col-md-4 control-label" for="email">Email</label>
             <div class="col-md-8">
-              <input id="email" class="form-control" type="text" ng-model="user.email" placeholder="Email" />
+              <input id="email" class="form-control" type="email" ng-model="user.email" placeholder="Email" required />
             </div>
           </div>
           <div class="form-group">
             <label class="col-md-4 control-label" for="password">Password</label>
             <div class="col-md-8">
-              <input id="password" class="form-control" type="password" ng-model="user.password" placeholder="Password" />
+              <input id="password" class="form-control" type="password" ng-model="user.password" placeholder="Password" required />
             </div>
           </div>
           <div class="form-group" data-ng-hide="signin">

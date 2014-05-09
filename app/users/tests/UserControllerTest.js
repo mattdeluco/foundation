@@ -144,7 +144,7 @@ describe('User Controller', function() {
         it('should require the user to be authenticated to update user object', function(done) {
             agent
                 .put('/user')
-                .send({user: {name: 'Foo'}})
+                .send({name: 'Foo'})
                 .expect(401, done);
         });
 
@@ -170,16 +170,21 @@ describe('User Controller', function() {
 
         it('should update a user object', function(done) {
             var new_name = 'Foo';
+            var username = 'Duchess';
 
             agent
                 .put('/user')
-                .send({user: {name: new_name}})
+                .send({
+                    name: new_name,
+                    username: username
+                })
                 .expect(200)
                 .end(function(err, res) {
                     should.not.exist(err);
                     res.body.should.have.property('user');
                     res.body.user.should.have.property('name', new_name);
                     res.body.user.should.have.property('email', user.email);
+                    res.body.user.should.have.property('username', username);
                     done();
                 });
         });
