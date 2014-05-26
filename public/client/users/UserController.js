@@ -6,7 +6,7 @@ angular.module('mean.users').controller('UserCtrl', [
     'Global',
     'Users',
     function ($scope, $state, Global, Users) {
-        console.log('UserCtrl loaded');
+
         $scope.global = Global;
 
         $scope.alerts = [];

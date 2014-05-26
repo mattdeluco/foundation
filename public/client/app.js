@@ -10,10 +10,10 @@ angular.module('mean', [
     //, 'mean.articles'
 ]);
 
-angular.module('mean.system', []);
-angular.module('mean.users', [
-    'mean.system',
-    'ngResource',
-    'ui.router'
+angular.module('mean').config(['$locationProvider',
+    function($locationProvider) {
+        $locationProvider.hashPrefix('!');
+    }
 ]);
-//angular.module('mean.articles', []);
+
+angular.module('mean.system', []);
