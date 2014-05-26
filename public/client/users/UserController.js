@@ -6,6 +6,7 @@ angular.module('mean.users').controller('UserCtrl', [
     'Global',
     'Users',
     function ($scope, $state, Global, Users) {
+        console.log('UserCtrl loaded');
         $scope.global = Global;
 
         $scope.alerts = [];
@@ -16,12 +17,13 @@ angular.module('mean.users').controller('UserCtrl', [
 
         $scope.user = Users.get({},
             function(resource, headers) {
-                // TODO Need a better way of persisting the user object
                 $scope.global.user = resource.user;
                 $scope.user = resource.user;
             },
             function(response) {
-                $scope.alerts.push(response.data.alert);
+                $scope.alerts.push(response.data.error);
+                $state.transitionTo('signup');
+                $scope.showSignin = true;
             }
         );
 
@@ -79,7 +81,7 @@ angular.module('mean.users').controller('UserCtrl', [
                 function(resource, headers) {
                     $scope.alerts.push({
                         type: 'success',
-                        msg: 'Acount updated!'
+                        msg: 'Account updated!'
                     });
                     $state.transitionTo('me');
                 },

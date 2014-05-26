@@ -45,7 +45,6 @@
   <script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.js"></script>
 
   <script type="text/javascript" src="/lib/angular/angular.js"></script>
-  <script type="text/javascript" src="/lib/angular-route/angular-route.js"></script>
   <script type="text/javascript" src="/lib/angular-resource/angular-resource.js"></script>
   <script type="text/javascript" src="/lib/angular-cookies/angular-cookies.js"></script>
   <script type="text/javascript" src="/lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>

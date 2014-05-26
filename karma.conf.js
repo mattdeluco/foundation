@@ -7,7 +7,7 @@ module.exports = function(config) {
     config.set({
 
         // base path, that will be used to resolve files and exclude
-        basePath: '../../',
+        basePath: './public',
 
 
         // frameworks to use
@@ -16,31 +16,28 @@ module.exports = function(config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'public/lib/angular/angular.js',
-            'public/lib/angular-mocks/angular-mocks.js',
-            'public/lib/angular-cookies/angular-cookies.js',
-            'public/lib/angular-resource/angular-resource.js',
-            'public/lib/angular-route/angular-route.js',
-            'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
-            'public/lib/angular-bootstrap/ui-bootstrap.js',
-            'public/lib/angular-ui-utils/modules/route/route.js',
-            'public/js/app.js',
-            'public/js/config.js',
-            'public/js/directives.js',
-            'public/js/filters.js',
-            'public/js/services/global.js',
-            'public/js/services/articles.js',
-            'public/js/controllers/articles.js',
-            'public/js/controllers/index.js',
-            'public/js/controllers/header.js',
-            'public/js/init.js',
-            'test/karma/unit/**/*.js'
+            'lib/angular/angular.js',
+            'lib/angular-resource/angular-resource.js',
+            'lib/angular-cookies/angular-cookies.js',
+            'lib/angular-bootstrap/ui-bootstrap-tpls.js',
+            'lib/angular-ui-router/release/angular-ui-router.js',
+            'lib/angular-mocks/angular-mocks.js',
+            'client/app.js',
+            'client/config.js',
+            'client/directives.js',
+            'client/filters.js',
+            'client/GlobalService.js',
+            'client/index/*.js',
+            'client/users/*.js',
+            //'client/articles/*.js',
+            'client/init.js',
+            'client/**/tests/*Test.js'
         ],
 
 
         // list of files to exclude
         exclude: [
-
+            'client/articles/tests/*Test.js'
         ],
 
 
@@ -54,8 +51,8 @@ module.exports = function(config) {
             // source files, that you wanna generate coverage for
             // do not include tests or libraries
             // (these files will be instrumented by Istanbul)
-            'public/js/controllers/*.js': ['coverage'],
-            'public/js/services/*.js': ['coverage']
+            'public/**/*Controller.js': ['coverage'],
+            'public/**/*Service.js': ['coverage']
         },
 
         coverageReporter: {
