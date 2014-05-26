@@ -4,7 +4,7 @@ angular.module('mean.users').controller('UserCtrl', [
     '$scope',
     '$state',
     'Global',
-    'Users',
+    'UserResource',
     function ($scope, $state, Global, Users) {
 
         $scope.global = Global;

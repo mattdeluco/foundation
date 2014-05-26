@@ -3,11 +3,13 @@
  */
 'use strict';
 
-angular.module('mean.users', [
+var module = angular.module('mean.users', [
     'mean.system',
     'ngResource',
     'ui.router'
-]).config([
+]);
+
+module.config([
     '$stateProvider',
     '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
@@ -27,5 +29,17 @@ angular.module('mean.users', [
                 templateUrl: '/client/users/views/edit.html',
                 controller: 'UserCtrl'
             });
+    }
+]);
+
+module.factory('UserResource', [
+    '$resource',
+    function($resource) {
+        return $resource('/user', {}, {
+            update: {method: 'PUT'},
+            save: {method: 'POST'},
+            signin: {method: 'POST', url: '/signin'},
+            signout: {method: 'GET', url: '/signout'}
+        });
     }
 ]);

@@ -4,8 +4,7 @@
 
 'use strict';
 
-angular.module('mean.users').directive(
-    'snInputMatch',
+angular.module('mean.users').directive('snInputMatch',
     function() {
         return {
             restrict: 'A',
