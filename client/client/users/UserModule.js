@@ -4,7 +4,6 @@
 'use strict';
 
 var module = angular.module('mean.users', [
-    'mean.system',
     'ngResource',
     'ui.router'
 ]);

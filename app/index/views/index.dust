@@ -1,9 +1,0 @@
-{>"index/views/layout" /}
-
-{<title}
-    {site.title} ({site.env})
-{/title}
-
-{<body}
-<section data-ui-view />
-{/body}

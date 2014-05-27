@@ -51,8 +51,8 @@ module.exports = function(config) {
             // source files, that you wanna generate coverage for
             // do not include tests or libraries
             // (these files will be instrumented by Istanbul)
-            'public/**/*Controller.js': ['coverage'],
-            'public/**/*Service.js': ['coverage']
+            'client/**/*Controller.js': ['coverage'],
+            'client/**/*Service.js': ['coverage']
         },
 
         coverageReporter: {

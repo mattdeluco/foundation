@@ -10,10 +10,10 @@ angular.module('mean', [
     //, 'mean.articles'
 ]);
 
+angular.module('mean.system', []);
+
 angular.module('mean').config(['$locationProvider',
     function($locationProvider) {
         $locationProvider.hashPrefix('!');
     }
 ]);
-
-angular.module('mean.system', []);

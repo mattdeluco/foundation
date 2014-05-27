@@ -6,26 +6,26 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         watch: {
             dust: {
-                files: ['app/**/views/*.dust'],
+                files: ['server/**/views/*.dust'],
                 options: {
                     livereload: true
                 }
             },
             js: {
-                files: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/**/*.js', 'test/**/*.js'],
+                files: ['gruntfile.js', 'server.js', 'server/**/*.js', 'client/**/*.js', 'test/**/*.js'],
                 tasks: ['jshint'],
                 options: {
                     livereload: true
                 }
             },
             html: {
-                files: ['public/**/views/*.html'],
+                files: ['client/**/views/*.html'],
                 options: {
                     livereload: true
                 }
             },
             css: {
-                files: ['public/**/styles/*.css'],
+                files: ['client/**/styles/*.css'],
                 options: {
                     livereload: true
                 }
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
         },
         jshint: {
             all: {
-                src: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/**/*.js', 'test/**/*.js'],
+                src: ['gruntfile.js', 'server.js', 'server/**/*.js', 'client/**/*.js', 'test/**/*.js'],
                 options: {
                     jshintrc: true
                 }
@@ -44,7 +44,7 @@ module.exports = function(grunt) {
                 options: {
                     file: 'server.js',
                     args: [],
-                    ignoredFiles: ['public/**'],
+                    ignoredFiles: ['client/**'],
                     watchedExtensions: ['js'],
                     nodeArgs: ['--debug'],
                     delayTime: 1,
@@ -66,7 +66,7 @@ module.exports = function(grunt) {
                 reporter: 'spec',
                 require: 'server.js'
             },
-            src: ['app/**/tests/*Test.js']
+            src: ['server/**/tests/*Test.js']
         },
         env: {
             test: {

@@ -4,6 +4,6 @@
 .bower-*/
 .idea/
 node_modules/
-public/lib
+client/lib
 test/coverage/
 *.iml

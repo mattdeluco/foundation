@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="false">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.bower-cache" />
+      <excludeFolder url="file://$MODULE_DIR$/.bower-registry" />
+      <excludeFolder url="file://$MODULE_DIR$/.bower-tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
+    </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="sass-stdlib" level="application" />
     <orderEntry type="library" name="Node.js Dependencies for mean" level="project" />

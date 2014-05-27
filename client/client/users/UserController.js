@@ -3,11 +3,8 @@
 angular.module('mean.users').controller('UserCtrl', [
     '$scope',
     '$state',
-    'Global',
     'UserResource',
-    function ($scope, $state, Global, Users) {
-
-        $scope.global = Global;
+    function ($scope, $state, Users) {
 
         $scope.alerts = [];
 
@@ -17,7 +14,6 @@ angular.module('mean.users').controller('UserCtrl', [
 
         $scope.user = Users.get({},
             function(resource, headers) {
-                $scope.global.user = resource.user;
                 $scope.user = resource.user;
             },
             function(response) {
@@ -30,8 +26,6 @@ angular.module('mean.users').controller('UserCtrl', [
         $scope.signin = function(user) {
             Users.signin([], user,
                 function(resource, headers) {
-                    $scope.global.user = resource.user;
-                    $scope.global.authenticated = true;
                     $scope.alerts.push({
                         type: 'success',
                         msg: 'Welcome back!'
@@ -49,8 +43,6 @@ angular.module('mean.users').controller('UserCtrl', [
         $scope.signout = function() {
             Users.signout([], null,
                 function(resource, headers) {
-                    $scope.global.user = null;
-                    $scope.global.authenticated = false;
                     $state.transitionTo('home');
                 },
                 function(response) {

@@ -25,7 +25,7 @@ var config = require('./config/config'),
 var db = mongoose.connect(config.db);
 
 // Bootstrap models
-var models_path = __dirname + '/app';
+var models_path = __dirname + '/server';
 var walk = function(path) {
     fs.readdirSync(path).forEach(function(file) {
         var newPath = path + '/' + file;
@@ -50,7 +50,7 @@ var app = express();
 require('./config/express')(app, passport, db);
 
 // Bootstrap routes
-var routes_path = __dirname + '/app';
+var routes_path = __dirname + '/server';
 var walk = function(path) {
     fs.readdirSync(path).forEach(function(file) {
         var newPath = path + '/' + file;

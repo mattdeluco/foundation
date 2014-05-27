@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{+title /}</title>
+  <title>MyApp</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -17,26 +17,13 @@
 
   <section class="container">
 
-    {#flash.error}
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <div class="alert alert-danger alert-dismissable">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <div class="strong">
-            {.}
-          </div>
-        </div>
-      </div>
-    </div>
-    {/flash.error}
-
     <section class="content">
-        {+body /}
+      <section data-ui-view></section>
     </section>
 
     <hr/>
     <footer class="footer pull-right">
-      {env}
+      footer
     </footer>
 
   </section>
@@ -53,9 +40,6 @@
   <!-- Angular Modules -->
   <script type="text/javascript" src="/client/app.js"></script>
   <script type="text/javascript" src="/client/users/UserModule.js"></script>
-
-  <!-- Angular Services -->
-  <script type="text/javascript" src="/client/GlobalService.js"></script>
 
   <!-- Index -->
   <script type="text/javascript" src="/client/index/IndexRoutes.js"></script>
