@@ -4,40 +4,49 @@
  * Module dependencies.
  */
 var express = require('express'),
+    bodyParser = require('body-parser'),
+    compress = require('compression'),
+    cookieParser = require('cookie-parser'),
+    favicon = require('serve-favicon'),
+    methodOverride = require('method-override'),
+    session = require('express-session'),
+    mongoStore = require('connect-mongo')(session),
+    logger = require('morgan'),
     dustjs = require('adaro'),
-    mongoStore = require('connect-mongo')(express),
     flash = require('connect-flash'),
     helpers = require('view-helpers'),
     config = require('./config'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    fs = require('fs');
+
+
+var loadRoutes = function(path, router) {
+    fs.readdirSync(path).forEach(function(file) {
+        var newPath = path + '/' + file;
+        var stat = fs.statSync(newPath);
+        if (stat.isFile() && /(.*)API\.(js$|coffee$)/.test(file)) {
+            require(newPath)(router);
+        } else if (stat.isDirectory() && file !== 'config') {
+            var subRouter = express.Router();
+            loadRoutes(newPath, subRouter);
+            router.use('/' + file, subRouter);
+        }
+    });
+};
 
 module.exports = function(app, passport, db) {
-    app.set('showStackError', true);
 
-    // Prettify HTML
-    app.locals.pretty = true;
+    app.set('showStackError', true);
 
     // cache=memory or swig dies in NODE_ENV=production
     app.locals.cache = 'memory';
 
-    app.locals({
-        env: process.env.NODE_ENV
-    });
-		
     // Should be placed before express.static
-    // To ensure that all assets and data are compressed (utilize bandwidth)
-    app.use(express.compress({
-        filter: function(req, res) {
-            return (/json|text|javascript|css/).test(res.getHeader('Content-Type'));
-        },
-        // Levels are specified in a range of 0 to 9, where-as 0 is
-        // no compression and 9 is best compression, but slowest
-        level: 9
-    }));
+    app.use(compress());
 
-    // Only use logger for development environment
     if (process.env.NODE_ENV === 'development') {
-        app.use(express.logger('dev'));
+        app.locals.pretty = true;  // Prettify HTML
+        app.use(logger({format: 'dev', immediate: true}));
     }
 
     /*
@@ -49,29 +58,26 @@ module.exports = function(app, passport, db) {
     app.set('views', config.root + '/client');
     */
 
-    // Enable jsonp
-    app.enable('jsonp callback');
-
     // Setting the fav icon and static folder
-    app.use(express.favicon());
+    app.use(favicon(config.root + '/client/img/icons/espresso.ico'));
     app.use(express.static(config.root + '/client'));
 
     // The cookieParser should be above session
-    app.use(express.cookieParser());
+    app.use(cookieParser());
 
     // Request body parsing middleware should be above methodOverride
-    app.use(express.urlencoded());
-    app.use(express.json());
-    app.use(express.methodOverride());
+    app.use(bodyParser());
+    app.use(methodOverride());
 
     // Express/Mongo session storage
-    app.use(express.session({
+    app.use(session({
         secret: config.sessionSecret,
         store: new mongoStore({
             db: db.connection.db,
             collection: config.sessionCollection
         })
     }));
+
 
     // Dynamic helpers
     app.use(helpers(config.app.name));
@@ -87,10 +93,15 @@ module.exports = function(app, passport, db) {
         next();
     });
 
-    // Routes should be at the last
-    app.use(app.router);
+    // Bootstrap Routes
+    var router = express.Router();
+    loadRoutes(__dirname, router);
+    app.use('/api', router);
 
-    app.use('/', express.static(config.root + '/client/index.html'));
+    // If we've come this far, no route matches, send the client.
+    app.use(function(req, res) {
+        res.sendfile(config.root + '/client/client/index/views/index.html');
+    });
 
     // Assume "not found" in the error msgs is a 404. this is somewhat
     // silly, but valid, you can do whatever you like, set properties,

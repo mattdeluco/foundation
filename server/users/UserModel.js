@@ -3,9 +3,10 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    bcrypt = require('bcrypt');
+var mongoose = require('mongoose')
+    , Schema = mongoose.Schema
+    , bcrypt = require('bcrypt')
+    , userRoles = require('../../client/client/auth/AuthAccessLevels').userRoles;
 
 /**
  * User Schema
@@ -16,6 +17,16 @@ var UserSchema = new Schema({
     email: {
         type: String,
         unique: true
+    },
+    role: {
+        bitMask: {
+            type: Number,
+            default: userRoles.user.bitMask
+        },
+        title: {
+            type: String,
+            default: userRoles.user.title
+        }
     },
     hashed_password: {
         type: String,

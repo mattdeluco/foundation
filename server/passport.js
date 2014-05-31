@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
+    passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     TwitterStrategy = require('passport-twitter').Strategy,
     FacebookStrategy = require('passport-facebook').Strategy,
@@ -11,8 +12,8 @@ var mongoose = require('mongoose'),
     config = require('./config');
 
 
-module.exports = function(passport) {
-    
+module.exports = function() {
+
     // Serialize the user id to push into the session
     passport.serializeUser(function(user, done) {
         done(null, user.id);
@@ -178,8 +179,8 @@ module.exports = function(passport) {
             profileFields: ['id', 'first-name', 'last-name', 'email-address']
         },
         function(accessToken, refreshToken, profile, done) {
-          User.findOne({ 
-                'linkedin.id': profile.id 
+          User.findOne({
+                'linkedin.id': profile.id
             }, function (err, user) {
                 if (!user) {
                     user = new User({

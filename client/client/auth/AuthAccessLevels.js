@@ -1,8 +1,7 @@
 /**
- * Created by mdeluco on 2014-05-27.
- * Copied from https://github.com/fnakstad/angular-client-side-auth
+ * Taken from https://github.com/fnakstad/angular-client-side-auth
+ * Created by mdeluco on 2014-05-28.
  */
-'use strict';
 
 (function(exports){
 
@@ -68,6 +67,7 @@
 
         var accessLevels = {};
         var resultBitMask;
+
         for(var level in accessLevelDeclarations){
 
             if(typeof accessLevelDeclarations[level] == 'string'){
@@ -103,4 +103,4 @@
         return accessLevels;
     }
 
-})(typeof exports === 'undefined' ? this['routingConfig'] = {} : exports);
+})(typeof exports === 'undefined' ? this['authAccessLevels'] = {} : exports);

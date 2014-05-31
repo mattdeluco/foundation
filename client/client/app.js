@@ -6,7 +6,8 @@ angular.module('mean', [
     'ui.bootstrap',
     'ui.router',
     'mean.system',
-    'mean.users'
+    'mean.auth'
+    //, 'mean.users'
     //, 'mean.articles'
 ]);
 
