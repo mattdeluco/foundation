@@ -99,6 +99,7 @@ module.exports = function(app, passport, db) {
     app.use('/api', router);
 
     // If we've come this far, no route matches, send the client.
+    // The problem with this is that everything returns 200!
     app.use(function(req, res) {
         res.sendfile(config.root + '/client/client/index/views/index.html');
     });

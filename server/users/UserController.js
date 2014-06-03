@@ -23,12 +23,12 @@ module.exports = {
                 });
             }
 
-            res.jsonp({user: user});
+            res.jsonp(user);
         });
     },
 
     me: function (req, res) {
-        return res.jsonp({ user: req.user });
+        return res.jsonp(req.user);
     }
 
 };

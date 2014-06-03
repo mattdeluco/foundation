@@ -17,6 +17,7 @@ module.exports = {
             if (err) {
                 return res.jsonp(400, {
                     error: {
+                        type: 'danger',
                         message: 'Error saving user: ' + err.message
                     }
                 });
@@ -26,6 +27,7 @@ module.exports = {
                 if (err) {
                     return res.jsonp(500, {
                         error: {
+                            type: 'danger',
                             message: 'Error loading new user: ' + err.message
                         }
                     });
@@ -33,7 +35,7 @@ module.exports = {
 
                 req.login(user, function(err) {
                     if (err) return next(err);
-                    return res.jsonp(200, {user: user});
+                    return res.jsonp(200, user);
                 });
             });
         });
@@ -46,6 +48,7 @@ module.exports = {
             if (!user) {
                 return res.jsonp(401, {
                     error: {
+                        type: 'danger',
                         message: info
                     }
                 });
@@ -57,7 +60,7 @@ module.exports = {
                 if(req.body.rememberme)
                     req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7;
 
-                return res.jsonp(200, {user: user});
+                return res.jsonp(200, user);
             });
 
         })(req, res, next);
