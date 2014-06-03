@@ -19,7 +19,7 @@ module.exports = {
             if(accessLevel.bitMask & role.bitMask)
                 return next();
 
-            return res.send(403);
+            res.send(403);
         };
     }
 

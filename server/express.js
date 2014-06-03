@@ -13,8 +13,6 @@ var express = require('express'),
     mongoStore = require('connect-mongo')(session),
     logger = require('morgan'),
     dustjs = require('adaro'),
-    flash = require('connect-flash'),
-    helpers = require('view-helpers'),
     config = require('./config'),
     _ = require('lodash'),
     fs = require('fs');
@@ -73,25 +71,15 @@ module.exports = function(app, passport, db) {
     app.use(session({
         secret: config.sessionSecret,
         store: new mongoStore({
-            db: db.connection.db,
+            //db: db.connection.db,
+            mongoose_connection: db.connection,
             collection: config.sessionCollection
         })
     }));
 
-
-    // Dynamic helpers
-    app.use(helpers(config.app.name));
-
     // Use passport session
     app.use(passport.initialize());
     app.use(passport.session());
-
-    // Connect flash for flash messages
-    app.use(flash());
-    app.use(function(req, res, next) {
-        res.locals.flash = req.flash();
-        next();
-    });
 
     // Bootstrap Routes
     var router = express.Router();

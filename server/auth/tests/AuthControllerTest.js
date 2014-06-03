@@ -61,7 +61,7 @@ describe('Auth Controller', function() {
         });
 
         // TODO Test various model validations
-        it('should return an http 400 and error message', function(done) {
+        it('should require a password on registration', function(done) {
             var user = {email: 'foo@example.com', password: ''};
 
             request(app)
@@ -87,21 +87,6 @@ describe('Auth Controller', function() {
             agent
                 .post('/api/auth/signin')
                 .send(_.omit(user, 'name'))
-                .expect(200)
-                .end(function(err, res) {
-                    should.not.exist(err);
-                    res.body.should.have.property('name', user.name);
-                    res.body.should.have.property('email', user.email);
-                    res.body.should.have.property('role');
-                    res.body.role.should.containDeep(userRoles.user);
-                    res.body.should.not.have.property('hashed_password');
-                    done();
-                });
-        });
-
-        it('should have access to the user object', function(done) {
-            agent
-                .get('/api/users/user')
                 .expect(200)
                 .end(function(err, res) {
                     should.not.exist(err);

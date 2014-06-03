@@ -3,9 +3,10 @@
 /**
  * Module dependencies.
  */
-var should = require('should'),
-    mongoose = require('mongoose'),
-    User = mongoose.model('User');
+var should = require('should')
+    , mongoose = require('mongoose')
+    , User = mongoose.model('User')
+    , userRoles = require('../../../client/client/auth/AuthAccessLevels').userRoles;
 
 //Globals
 var user, user2;
@@ -43,6 +44,14 @@ describe('User Model', function() {
 
         it('should save without error', function(done) {
             user.save(done);
+        });
+
+        it('should save a user with default role user', function () {
+            user.should.have.property('role');
+            user.role.should.have.properties({
+                bitMask: userRoles.user.bitMask,
+                title: userRoles.user.title
+            });
         });
 
         it('should fail to save a new user with an existing email address', function(done) {
@@ -100,9 +109,9 @@ describe('User Model', function() {
 
         it('should not return hashed_password in a query', function(done) {
             user.save();
-            User.findOne({_id: user.id}, function(err, user) {
+            User.findOne({_id: user.id}, function(err, user1) {
                 should.not.exist(err);
-                user.should.not.have.property('hashed_password');
+                user1.should.have.property('hashed_password', undefined);
                 done();
             });
         });
