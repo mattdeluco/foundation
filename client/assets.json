@@ -1,0 +1,41 @@
+{
+    "main": {
+        "vendorCss": {
+            "dest": "client/build/vendor_styles.min.css",
+            "src": [
+                "client/lib/bootstrap/dist/css/bootstrap.min.css",
+                "client/lib/bootstrap/dist/css/bootstrap-theme.min.css"
+            ]
+        },
+        "vendorJs": {
+            "dest": "client/build/lib.min.js",
+            "src": [
+                "client/lib/jquery/dist/jquery.min.js",
+                "client/lib/bootstrap/dist/js/bootstrap.min.js",
+                "client/lib/angular/angular.min.js",
+                "client/lib/angular-resource/angular-resource.min.js",
+                "client/lib/angular-cookies/angular-cookies.min.js",
+                "client/lib/angular-ui-router/release/angular-ui-router.min.js",
+                "client/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"
+            ]
+        },
+        "clientCss": {
+            "dest": "client/build/client_styles.min.css",
+            "src": [
+                "client/client/index/styles/common.css"
+            ]
+        },
+        "clientJs": {
+            "dest": "client/build/client.min.js",
+            "src": [
+                "client/client/app.js",
+                "client/client/**/*.js",
+                "!client/client/init.js",
+                "client/client/init.js",
+                "!client/client/**/*Test.js",
+                "!client/client/articles/**/*.js",
+                "!client/client/users/**/*.js"
+            ]
+        }
+    }
+}

@@ -4,6 +4,30 @@ module.exports = function(grunt) {
     // Project Configuration
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        assets: grunt.file.readJSON('client/assets.json'),
+        concat: {
+            options: {
+                separator: ';'
+            },
+            production: {
+                files: [
+                    '<%= assets.main.vendorCss %>',
+                    '<%= assets.main.vendorJs %>'
+                ]
+            }
+        },
+        cssmin: {
+            options: {},
+            production: {
+                files: ['<%= assets.main.clientCss %>']
+            }
+        },
+        uglify: {
+            options: {},
+            production: {
+                files: ['<%= assets.main.clientJs %>']
+            }
+        },
         watch: {
             dust: {
                 files: ['server/**/views/*.dust'],
@@ -81,6 +105,9 @@ module.exports = function(grunt) {
     });
 
     //Load NPM tasks
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-test');
@@ -100,4 +127,10 @@ module.exports = function(grunt) {
 
     // Test app task
     grunt.registerTask('test app', ['env:test', 'mochaTest']);
+
+    grunt.registerTask('production', [
+        'concat:production',
+        'cssmin:production',
+        'uglify:production'
+    ]);
 };

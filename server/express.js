@@ -8,14 +8,17 @@ var express = require('express'),
     compress = require('compression'),
     cookieParser = require('cookie-parser'),
     favicon = require('serve-favicon'),
+    dustjs = require('adaro'),
     methodOverride = require('method-override'),
     session = require('express-session'),
     mongoStore = require('connect-mongo')(session),
     logger = require('morgan'),
     dustjs = require('adaro'),
+    assetmanager = require('assetmanager'),
     config = require('./config'),
     _ = require('lodash'),
-    fs = require('fs');
+    fs = require('fs'),
+    index = require('./index/IndexController');
 
 
 var loadRoutes = function(path, router) {
@@ -32,6 +35,7 @@ var loadRoutes = function(path, router) {
     });
 };
 
+
 module.exports = function(app, passport, db) {
 
     app.set('showStackError', true);
@@ -39,26 +43,31 @@ module.exports = function(app, passport, db) {
     // cache=memory or swig dies in NODE_ENV=production
     app.locals.cache = 'memory';
 
-    // Should be placed before express.static
-    app.use(compress());
-
     if (process.env.NODE_ENV === 'development') {
         app.locals.pretty = true;  // Prettify HTML
         app.use(logger({format: 'dev', immediate: true}));
     }
 
-    /*
     // assign the template engine to .dust files
     app.engine('dust', dustjs.dust());
-    // set .dust as the default extension
     app.set('view engine', 'dust');
-    // Set views path, template engine and default layout
-    app.set('views', config.root + '/client');
-    */
+    app.set('views', config.root + '/server');
+
+    // Should be placed before express.static
+    app.use(compress());
 
     // Setting the fav icon and static folder
     app.use(favicon(config.root + '/client/img/icons/espresso.ico'));
     app.use(express.static(config.root + '/client'));
+
+    app.use(function (req, res, next) {
+        res.locals.assets = assetmanager.process({
+            assets: require('../client/assets.json'),
+            debug: (process.env.NODE_ENV !== 'production'),
+            webroot: 'client'
+        });
+        next();
+    });
 
     // The cookieParser should be above session
     app.use(cookieParser());
@@ -89,7 +98,7 @@ module.exports = function(app, passport, db) {
     // If we've come this far, no route matches, send the client.
     // The problem with this is that everything returns 200!
     app.use(function(req, res) {
-        res.sendfile(config.root + '/client/client/index/views/index.html');
+        index.render(req, res);
     });
 
     // Assume "not found" in the error msgs is a 404. this is somewhat

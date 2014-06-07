@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MyApp</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+
+  {#assets.main.vendorCss}
+  <link rel="stylesheet" href="{.}">
+  {/assets.main.vendorCss}
+
+  {#assets.main.clientCss}
+  <link rel="stylesheet" href="{.}">
+  {/assets.main.clientCss}
+
+</head>
+
+<body>
+
+  <section data-ui-view></section>
+
+  {#assets.main.vendorJs}
+  <script type="text/javascript" src="{.}"></script>
+  {/assets.main.vendorJs}
+
+  {#assets.main.clientJs}
+  <script type="text/javascript" src="{.}"></script>
+  {/assets.main.clientJs}
+
+</body>
+
+</html>
