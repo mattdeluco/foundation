@@ -30,13 +30,16 @@ module.exports = function(grunt) {
         },
         watch: {
             dust: {
-                files: ['server/**/views/*.dust'],
+                files: ['server/**/*.dust'],
                 options: {
                     livereload: true
                 }
             },
             js: {
-                files: ['gruntfile.js', 'server.js', 'server/**/*.js', 'client/**/*.js', 'test/**/*.js'],
+                files: [
+                    'gruntfile.js', 'server.js', 'server/**/*.js',
+                    'client/**/*.js', 'test/**/*.js', 'client/assets.json'
+                ],
                 tasks: ['jshint'],
                 options: {
                     livereload: true

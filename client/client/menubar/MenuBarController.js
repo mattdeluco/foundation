@@ -1,6 +1,9 @@
+/**
+ * Created by mdeluco on 2014-06-09.
+ */
 'use strict';
 
-angular.module('mean.system').controller('HeaderController', [
+angular.module('mean.menubar').controller('MenuBarCtrl', [
     '$scope',
     function ($scope) {
         $scope.menu = [{

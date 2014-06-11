@@ -4,14 +4,14 @@ angular.module('mean', [
     'ngCookies',
     'ngResource',
     'ui.bootstrap',
-    'ui.router',
-    'mean.system',
-    'mean.auth'
+    'ui.router'
+    , 'mean.alerts'
+    , 'mean.menubar'
+    , 'mean.footer'
+    , 'mean.auth'
     //, 'mean.users'
     //, 'mean.articles'
 ]);
-
-angular.module('mean.system', []);
 
 angular.module('mean').config(['$locationProvider',
     function($locationProvider) {

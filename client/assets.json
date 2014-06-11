@@ -22,13 +22,16 @@
         "clientCss": {
             "dest": "client/build/client_styles.min.css",
             "src": [
-                "client/client/index/styles/common.css"
+                "client/client/menubar/styles/menubar.css",
+                "client/client/footer/styles/footer.css",
+                "client/client/alerts/styles/alerts.css"
             ]
         },
         "clientJs": {
             "dest": "client/build/client.min.js",
             "src": [
                 "client/client/app.js",
+                "client/client/**/*Module.js",
                 "client/client/**/*.js",
                 "!client/client/init.js",
                 "client/client/init.js",

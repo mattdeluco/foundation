@@ -19,7 +19,14 @@
 
 <body>
 
-  <section data-ui-view></section>
+  <section data-ng-include="'/client/menubar/views/menubar.html'"></section>
+
+  <div class="container">
+    <section data-ng-include="'/client/alerts/views/alerts.html'"></section>
+    <section data-ui-view></section>
+  </div>
+
+  <section data-ng-include="'/client/footer/views/footer.html'"></section>
 
   {#assets.main.vendorJs}
   <script type="text/javascript" src="{.}"></script>
