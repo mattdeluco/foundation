@@ -1,6 +1,6 @@
-<div data>
-  <h1>{{global.user.name}} <small>{{global.user.email}}</small></h1>
-  <h2>{{global.user.username}}</h2>
+<div>
+  <h1>{{user.name}} <small>{{user.email}}</small></h1>
+  <h2>{{user.username || 'No username'}}</h2>
   Lorem ipsum
   <div>
     <button class="btn btn-primary" ui-sref="edit">Edit</button>

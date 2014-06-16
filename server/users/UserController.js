@@ -10,6 +10,17 @@ var _ = require('lodash'),
 
 module.exports = {
 
+    signin: function (req, res) {
+        if(req.isAuthenticated()) {
+            return res.redirect('/');
+        }
+        res.redirect('#!/signin');
+    },
+
+    authCallback: function (req, res) {
+        res.redirect('/');
+    },
+
     update: function (req, res) {
         var user = _.extend(req.user, req.body);
 

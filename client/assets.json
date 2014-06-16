@@ -36,8 +36,7 @@
                 "!client/client/init.js",
                 "client/client/init.js",
                 "!client/client/**/*Test.js",
-                "!client/client/articles/**/*.js",
-                "!client/client/users/**/*.js"
+                "!client/client/articles/**/*.js"
             ]
         }
     }

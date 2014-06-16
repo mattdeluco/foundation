@@ -4,3 +4,12 @@
 'use strict';
 
 angular.module('mean.footer', []);
+
+angular.module('mean.footer').factory('FootSrvc', [
+    'AuthSrvc',
+    function (authSrvc) {
+        return {
+            user: authSrvc.user
+        };
+    }
+]);

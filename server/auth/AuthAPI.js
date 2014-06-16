@@ -9,6 +9,6 @@ module.exports = function(router) {
 
     router.post('/register', AuthCtrl.register);
     router.post('/signin', AuthCtrl.signin);
-    router.post('/signout', AuthCtrl.signout);
+    router.get('/signout', AuthCtrl.signout);
 
 };

@@ -28,6 +28,12 @@
 
   <section data-ng-include="'/client/footer/views/footer.html'"></section>
 
+  {#user}
+  <script type="text/javascript">
+    window.user = {user|js|s};
+  </script>
+  {/user}
+
   {#assets.main.vendorJs}
   <script type="text/javascript" src="{.}"></script>
   {/assets.main.vendorJs}

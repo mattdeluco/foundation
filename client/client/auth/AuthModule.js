@@ -1,5 +1,5 @@
 /**
- * Taken from https://github.com/fnakstad/angular-client-side-auth
+ * Borrowed from https://github.com/fnakstad/angular-client-side-auth
  * Created by mdeluco on 2014-05-28.
  */
 'use strict';
@@ -24,7 +24,7 @@ module.config([
         $stateProvider
             .state('public', {
                 abstract: true,
-                template: "<ui-view/>",
+                template: "<data-ui-view/>",
                 data: {
                     access: access.public
                 }
@@ -46,31 +46,12 @@ module.config([
             .state('anon.signin', {
                 url: '/signin/',
                 templateUrl: '/client/auth/views/signin.html',
-                controller: 'LoginCtrl'
+                controller: 'AuthCtrl'
             })
             .state('anon.register', {
                 url: '/register/',
                 templateUrl: '/client/auth/views/register.html',
-                controller: 'RegisterCtrl'
-            });
-
-        // Regular user routes
-        $stateProvider
-            .state('user', {
-                abstract: true,
-                template: "<data-ui-view />",
-                data: {
-                    access: access.user
-                }
-            })
-            .state('user.home', {
-                url: '/',
-                templateUrl: '/client/auth/views/home.html'
-            })
-            .state('user.me', {
-                abstract: true,
-                url: '/me/',
-                templateUrl: '/client/auth/views/me.html'
+                controller: 'AuthCtrl'
             });
 
         $urlRouterProvider.otherwise('/404');
@@ -104,13 +85,13 @@ module.config([
             return path + '/?' + params.join('&');
         });
 
-        $locationProvider.html5Mode(true);
+        //$locationProvider.html5Mode(true);
 
         $httpProvider.interceptors.push(function($q, $location) {
             return {
                 'responseError': function(response) {
                     if(response.status === 401 || response.status === 403) {
-                        $location.path('/login');
+                        $location.path('/signin');
                     }
                     return $q.reject(response);
                 }
@@ -120,39 +101,32 @@ module.config([
     }
 ]);
 
-module.factory('AuthResource', [
-    '$resource',
-    function($resource) {
-        return $resource('/user', {}, {
-            register: {method: 'POST'},
-            signin: {method: 'POST', url: '/signin'},
-            signout: {method: 'GET', url: '/signout'}
-        });
-    }
-]);
-
 module.run([
     '$rootScope',
     '$state',
-    'Auth',
+    'AlertSrvc',
+    'AuthSrvc',
     function (
         $rootScope,
         $state,
-        Auth)
+        alertSrvc,
+        authSrvc)
     {
 
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-            if (!Auth.authorize(toState.data.access)) {
-                $rootScope.error = "Seems like you tried accessing a route you don't have access to...";
+            if (!authSrvc.authorize(toState.data.access)) {
+
                 event.preventDefault();
 
                 if(fromState.url === '^') {
-                    if(Auth.isLoggedIn()) {
+                    if(authSrvc.isSignedIn()) {
                         $state.go('user.home');
                     } else {
-                        $rootScope.error = null;
-                        $state.go('anon.login');
+                        alertSrvc.clearAlerts();
+                        $state.go('anon.signin');
                     }
+                } else {
+                    alertSrvc.addAlerts('warning', 'Sorry, we can\'t show you that!');
                 }
             }
         });

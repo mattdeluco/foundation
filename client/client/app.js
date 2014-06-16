@@ -6,11 +6,11 @@ angular.module('mean', [
     'ui.bootstrap',
     'ui.router'
     , 'mean.alerts'
+    , 'mean.auth'
     , 'mean.menubar'
     , 'mean.footer'
-    , 'mean.auth'
-    //, 'mean.users'
-    //, 'mean.articles'
+    , 'mean.users'
+//    , 'mean.articles'
 ]);
 
 angular.module('mean').config(['$locationProvider',

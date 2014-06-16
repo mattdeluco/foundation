@@ -4,5 +4,7 @@
 'use strict';
 
 exports.render = function (req, res) {
-    res.render('./index/views/index');
+    res.render('./index/views/index', {
+        user: req.user
+    });
 };

@@ -4,9 +4,10 @@
 'use strict';
 
 angular.module('mean.alerts', [])
-    .factory('alerts', [
+    .factory('AlertSrvc', [
         '$rootScope',
         function($rootScope) {
+            // TODO It would be nice if individual alerts could be cleared
             // types: success, info (default), warn, danger
             var alertService;
             $rootScope.alerts = {};
@@ -33,6 +34,9 @@ angular.module('mean.alerts', [])
                 },
                 closeAlert: function(type) {
                     delete $rootScope.alerts[type];
+                },
+                clearAlerts: function() {
+                    $rootScope.alerts = {};
                 }
             };
         }

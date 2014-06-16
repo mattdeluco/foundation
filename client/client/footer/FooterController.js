@@ -5,7 +5,8 @@
 
 angular.module('mean.footer').controller('FooterCtrl', [
     '$scope',
-    function ($scope) {
-        $scope.foo = 'foo';
+    'FootSrvc',
+    function ($scope, footSrvc) {
+        $scope.email = footSrvc.user.email;
     }
 ]);

@@ -3,15 +3,12 @@
 angular.module('mean.users').controller('UserCtrl', [
     '$scope',
     '$state',
+    'AuthSrvc',
     'UserResource',
-    function ($scope, $state, Users) {
+    function ($scope, $state, authSrvc, Users) {
 
-        $scope.alerts = [];
-
-        $scope.closeAlert = function(index) {
-            $scope.alerts.splice(index, 1);
-        };
-
+        $scope.user = authSrvc.user;
+        /*
         $scope.user = Users.get({},
             function(resource, headers) {
                 $scope.user = resource.user;
@@ -30,12 +27,12 @@ angular.module('mean.users').controller('UserCtrl', [
                         type: 'success',
                         msg: 'Welcome back!'
                     });
-                    $state.transitionTo('me');
+                    $state.go('me');
                 },
                 function(response) {
                     $scope.alerts.push(response.data.alert);
                     // TODO on redirect this should display the signin form
-                    $state.transitionTo('signup');
+                    $state.go('signup');
                 }
             );
         };
@@ -43,30 +40,31 @@ angular.module('mean.users').controller('UserCtrl', [
         $scope.signout = function() {
             Users.signout([], null,
                 function(resource, headers) {
-                    $state.transitionTo('home');
+                    $state.go('home');
                 },
                 function(response) {
                     $scope.alerts.push(response.data.alert);
-                    $state.transitionTo('home');
+                    $state.go('home');
                 }
             );
         };
 
-        $scope.save = function(user) {
+        $scope.register = function(user) {
             Users.save([], user,
                     function(resource, headers) {
                         $scope.alerts.push({
                             type: 'success',
                             msg: 'Account created, welcome!'
                         });
-                        $state.transitionTo('me');
+                        $state.go('me');
                     },
                     function(response) {
                         $scope.alerts.push(response.data.alert);
-                        $state.transitionTo('signup');
+                        $state.go('signup');
                     }
             );
         };
+        */
 
         $scope.update = function(user) {
             Users.update([], user,
@@ -75,11 +73,11 @@ angular.module('mean.users').controller('UserCtrl', [
                         type: 'success',
                         msg: 'Account updated!'
                     });
-                    $state.transitionTo('me');
+                    $state.go('me');
                 },
                 function(response) {
                     $scope.alerts.push(response.data.alert);
-                    $state.transitionTo('me');
+                    $state.go('me');
                 }
             );
         };

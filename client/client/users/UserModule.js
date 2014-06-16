@@ -12,33 +12,37 @@ module.config([
     '$stateProvider',
     '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
-        $stateProvider.
-            state('signup', {
-                url: '/signup',
-                templateUrl: '/client/users/views/create.html',
+
+        var access = authAccessLevels.accessLevels;
+
+        $stateProvider
+            .state('user', {
+                abstract: true,
+                template: "<data-ui-view />",
+                data: {
+                    access: access.user
+                }
+            })
+            .state('user.home', {
+                url: '/',
+                templateUrl: '/client/users/views/home.html',
                 controller: 'UserCtrl'
-            }).
-            state('me', {
-                url: '/me',
-                templateUrl: '/client/users/views/view.html',
-                controller: 'UserCtrl'
-            }).
-            state('edit', {
-                url: '/me/edit',
-                templateUrl: '/client/users/views/edit.html',
+            })
+            .state('user.me', {
+                url: '/me/',
+                templateUrl: '/client/users/views/me.html',
                 controller: 'UserCtrl'
             });
+
     }
 ]);
 
 module.factory('UserResource', [
     '$resource',
     function($resource) {
-        return $resource('/user', {}, {
+        return $resource('/api/users', {}, {
             update: {method: 'PUT'},
-            save: {method: 'POST'},
-            signin: {method: 'POST', url: '/signin'},
-            signout: {method: 'GET', url: '/signout'}
+            save: {method: 'POST'}
         });
     }
 ]);
