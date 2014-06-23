@@ -1,14 +1,14 @@
 'use strict';
 
 module.exports = {
-    db: 'mongodb://localhost/mean-dev',
+    db: 'mongodb://localhost/foundation-dev',
     app: {
-        name: 'MEAN - A Modern Stack - Development'
+        name: 'Foundation Framework'
     },
     facebook: {
-        clientID: 'APP_ID',
-        clientSecret: 'APP_SECRET',
-        callbackURL: 'http://localhost:3000/auth/facebook/callback'
+        clientID: process.env.facebook_app_id,
+        clientSecret: process.env.facebook_app_secret,
+        callbackURL: 'http://localhost:3000/api/users/facebook/callback'
     },
     twitter: {
         clientID: 'CONSUMER_KEY',

@@ -3,11 +3,40 @@
 angular.module('mean.users').controller('UserCtrl', [
     '$scope',
     '$state',
-    'AuthSrvc',
-    'UserResource',
-    function ($scope, $state, authSrvc, Users) {
+    'AlertSrvc',
+    'UserRsrc',
+    function ($scope, $state, alertSrvc, userRsrc) {
 
-        $scope.user = authSrvc.user;
+        $scope.profilePairs = [];
+
+        $scope.user = userRsrc.get({},
+            function (resource, headers) {
+                var providers = resource.providers;
+                for (var i = 0; i < providers.length; i++) {
+                    $scope.profilePairs.push(providers.slice(i+i, i+i+1));
+                }
+            },
+            function (response) {
+                alertSrvc.addAlerts(response.alert.type, response.alert.msg);
+            }
+        );
+
+        $scope.update = function(user) {
+            userRsrc.update([], user,
+                function(resource, headers) {
+                    $scope.alerts.push({
+                        type: 'success',
+                        msg: 'Account updated!'
+                    });
+                    $state.go('me');
+                },
+                function(response) {
+                    $scope.alerts.push(response.data.alert);
+                    $state.go('me');
+                }
+            );
+        };
+
         /*
         $scope.user = Users.get({},
             function(resource, headers) {
@@ -65,22 +94,6 @@ angular.module('mean.users').controller('UserCtrl', [
             );
         };
         */
-
-        $scope.update = function(user) {
-            Users.update([], user,
-                function(resource, headers) {
-                    $scope.alerts.push({
-                        type: 'success',
-                        msg: 'Account updated!'
-                    });
-                    $state.go('me');
-                },
-                function(response) {
-                    $scope.alerts.push(response.data.alert);
-                    $state.go('me');
-                }
-            );
-        };
 
     }
 ]);

@@ -38,7 +38,7 @@ module.config([
         $stateProvider
             .state('anon', {
                 abstract: true,
-                template: "<data-ui-view />",
+                templateUrl: '/client/auth/views/index.html',
                 data: {
                     access: access.anon
                 }

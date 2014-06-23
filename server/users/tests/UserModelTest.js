@@ -6,12 +6,13 @@
 var should = require('should')
     , mongoose = require('mongoose')
     , User = mongoose.model('User')
-    , userRoles = require('../../../client/client/auth/AuthAccessLevels').userRoles;
+    , userRoles = require('../../../client/client/auth/AuthAccessLevels')
+        .userRoles;
 
-//Globals
+
 var user, user2;
 
-//The tests
+
 describe('User Model', function() {
 
     before(function(done) {
@@ -19,61 +20,83 @@ describe('User Model', function() {
             name: 'Full name',
             email: 'test@example.com',
             username: 'user',
-            password: 'password',
-            provider: 'local'
+            password: 'password'
         });
         user2 = new User({
             name: 'Full name',
             email: user.email,
-            username: 'user',
-            password: 'password',
-            provider: 'local'
+            username: user.username,
+            password: 'password'
         });
 
         done();
     });
 
-    describe('Method Save', function() {
-        it('should begin with no users', function(done) {
-            User.find({}, function(err, users) {
+    describe('Saving a new user', function() {
+
+        it('should begin with no users', function (done) {
+            User.find({}, function (err, users) {
                 should.not.exist(err);
                 users.should.have.length(0);
                 done();
             });
         });
 
-        it('should save without error', function(done) {
+        it('should save without error', function (done) {
             user.save(done);
         });
 
-        it('should save a user with default role user', function () {
+        it('should save a user with default role user', function (done) {
             user.should.have.property('role');
             user.role.should.have.properties({
                 bitMask: userRoles.user.bitMask,
                 title: userRoles.user.title
             });
+            done();
         });
 
-        it('should fail to save a new user with an existing email address', function(done) {
-            user.save();
-            return user2.save(function(err) {
+        it('should save a user with a default provider of local', function (done) {
+            user.should.have.property('provider', 'local');
+            done();
+        });
+
+    });
+
+    describe('Unique Fields', function () {
+
+        it('should fail to save a new user with a duplicate email address', function (done) {
+            user2.save(function (err) {
                 should.exist(err);
+                err.should.have.property('code', 11000);
                 done();
             });
         });
 
-        it('should save a new user with a different email address', function(done) {
-            user.save();
-            var user3 = new User(user2);
-            user3.email = 'test3@example.com';
-            user3.save(done);
+        it('should not save a new user with a duplicate username', function (done) {
+            user2.save(function (err) {
+                should.exist(err);
+                err.should.have.property('code', 11000);
+                done();
+            });
         });
+
+        it('should save a new user with unique fields', function (done) {
+            user2.email = 'test2@example.com';
+            user2.username = 'user2';
+            user2.save(done);
+        });
+
+    });
+
+    describe('Required Fields', function() {
 
         it('should error on empty name', function(done) {
             var userx = new User(user);
             userx.name = '';
-            return userx.save(function(err) {
+            userx.save(function(err) {
                 should.exist(err);
+                err.should.have.property('name', 'ValidationError');
+                err.errors.should.have.property('name');
                 done();
             });
         });
@@ -81,20 +104,37 @@ describe('User Model', function() {
         it('should error on empty email', function(done) {
             var userx = new User(user);
             userx.email = '';
-            return userx.save(function(err) {
+            userx.save(function(err) {
                 should.exist(err);
+                err.should.have.property('name', 'ValidationError');
+                err.errors.should.have.property('email');
                 done();
             });
         });
 
-        it('should error on empty password', function(done) {
+        it('should error on empty hashed_password', function(done) {
             var userx = new User(user);
             userx.password = '';
-            return userx.save(function(err) {
+            userx.save(function(err) {
                 should.exist(err);
+                err.should.have.property('name', 'ValidationError');
+                err.errors.should.have.property('hashed_password');
                 done();
             });
         });
+
+        it('should not error on empty hashed_password with non-local provider', function (done) {
+            var userx = new User({
+                name: 'Sterling Archer',
+                username: 'duchess',
+                email: 'duchess@example.com',
+                provider: 'facebook'
+            });
+            userx.provider = 'facebook';
+            userx.password = '';
+            userx.save(done);
+        });
+
     });
 
     describe('Password', function() {
@@ -108,7 +148,6 @@ describe('User Model', function() {
         });
 
         it('should not return hashed_password in a query', function(done) {
-            user.save();
             User.findOne({_id: user.id}, function(err, user1) {
                 should.not.exist(err);
                 user1.should.have.property('hashed_password', undefined);

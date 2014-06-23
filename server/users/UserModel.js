@@ -6,17 +6,32 @@
 var mongoose = require('mongoose')
     , Schema = mongoose.Schema
     , bcrypt = require('bcrypt')
-    , userRoles = require('../../client/client/auth/AuthAccessLevels').userRoles;
+    , userRoles = require('../../client/client/auth/AuthAccessLevels')
+        .userRoles;
 
-/**
- * User Schema
- */
+
+var validatePresenceOf = function (value) {
+    return (this.provider && this.provider !== 'local')
+        || (value && value.length);
+};
+
+
 var UserSchema = new Schema({
-    name: String,
-    username: String,
-    email: {
+    name: {
+        type: String,
+        required: true
+    },
+    // TODO Handle username collisions from different providers
+    // TODO Handle providers that don't supply a username
+    username: {
         type: String,
         unique: true
+        //required: true
+    },
+    email: {
+        type: String,
+        unique: true,
+        required: true
     },
     role: {
         bitMask: {
@@ -30,19 +45,17 @@ var UserSchema = new Schema({
     },
     hashed_password: {
         type: String,
-        select: false
+        select: false,
+        validate: validatePresenceOf
     },
-    provider: String,
-    facebook: {},
-    twitter: {},
-    github: {},
-    google: {},
-    linkedin: {}
+    provider: {
+        type: String,
+        default: 'local'
+    },
+    providers: [{}]
 });
 
-/**
- * Virtuals
- */
+
 UserSchema.virtual('password').set(function(password) {
     this._password = password;
     this.hashed_password = this.encryptPassword(password);
@@ -50,53 +63,7 @@ UserSchema.virtual('password').set(function(password) {
     return this._password;
 });
 
-/**
- * Validations
- */
-var validatePresenceOf = function(value) {
-    return value && value.length;
-};
 
-// the below 4 validations only apply if you are signing up traditionally
-UserSchema.path('name').validate(function(name) {
-    // if you are authenticating by any of the oauth strategies, don't validate
-    if (!this.provider) return true;
-    return (typeof name === 'string' && name.length > 0);
-}, 'Name cannot be blank');
-
-UserSchema.path('email').validate(function(email) {
-    // if you are authenticating by any of the oauth strategies, don't validate
-    if (!this.provider) return true;
-    return (typeof email === 'string' && email.length > 0);
-}, 'Email cannot be blank');
-/*
-UserSchema.path('username').validate(function(username) {
-    // if you are authenticating by any of the oauth strategies, don't validate
-    if (!this.provider) return true;
-    return (typeof username === 'string' && username.length > 0);
-}, 'Username cannot be blank');
-*/
-UserSchema.path('hashed_password').validate(function(hashed_password) {
-    // if you are authenticating by any of the oauth strategies, don't validate
-    if (!this.provider) return true;
-    return (typeof hashed_password === 'string' && hashed_password.length > 0);
-}, 'Password cannot be blank');
-
-/**
- * Pre-save hook
- */
-UserSchema.pre('save', function(next) {
-    if (!this.isNew) return next();
-
-    if (!validatePresenceOf(this.password) && !this.provider)
-        next(new Error('Invalid password'));
-    else
-        next();
-});
-
-/**
- * Methods
- */
 UserSchema.methods = {
     /**
      * Authenticate - check if the passwords are the same
@@ -121,5 +88,9 @@ UserSchema.methods = {
         return bcrypt.hashSync(password, 10);
     }
 };
+
+
+UserSchema.index({'providers.id': 1})
+
 
 mongoose.model('User', UserSchema);

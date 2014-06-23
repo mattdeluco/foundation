@@ -39,7 +39,21 @@ module.exports = {
     },
 
     me: function (req, res) {
-        return res.jsonp(req.user);
+        User.findById(req.user._id, function (err, user) {
+            if (err) {
+                return res.jsonp(500, {
+                    alert: {
+                        type: 'danger',
+                        msg: 'Error retrieving user information: ' + err.message
+                    }
+                });
+            }
+
+            if (user) {
+                console.log(user);
+                return res.jsonp(user);
+            }
+        });
     }
 
 };

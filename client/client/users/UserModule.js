@@ -37,10 +37,10 @@ module.config([
     }
 ]);
 
-module.factory('UserResource', [
+module.factory('UserRsrc', [
     '$resource',
     function($resource) {
-        return $resource('/api/users', {}, {
+        return $resource('/api/users/user', {}, {
             update: {method: 'PUT'},
             save: {method: 'POST'}
         });

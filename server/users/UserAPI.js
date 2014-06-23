@@ -12,54 +12,51 @@ module.exports = function(router) {
     router.put('/user', isAuthorized(accessLevels.user), UserCtrl.update);
 
     // Setting the facebook oauth routes
-    router.get('/auth/facebook', passport.authenticate('facebook', {
-        failureFlash: true,
-        scope: ['email', 'user_about_me']
-    }), UserCtrl.signin);
+    router.get('/facebook', passport.authenticate('facebook', {
+        successRedirect: '/',
+        failureRedirect: '#!/signin',
+        scope: ['public_profile', 'email']
+    }));
 
-    router.get('/auth/facebook/callback', passport.authenticate('facebook', {
-        failureFlash: true
-    }), UserCtrl.authCallback);
-
-    // Setting the github oauth routes
-    router.get('/auth/github', passport.authenticate('github', {
-        failureFlash: true
-    }), UserCtrl.signin);
-
-    router.get('/auth/github/callback', passport.authenticate('github', {
-        failureFlash: true
-    }), UserCtrl.authCallback);
+    router.get('/facebook/callback', passport.authenticate('facebook', {
+        successRedirect: '/',
+        failureRedirect: '#!/signin'
+    }));
 
     // Setting the twitter oauth routes
-    router.get('/auth/twitter', passport.authenticate('twitter', {
-        failureFlash: true
+    router.get('/twitter', passport.authenticate('twitter', {
+        failureRedirect: '#!/signin'
     }), UserCtrl.signin);
 
-    router.get('/auth/twitter/callback', passport.authenticate('twitter', {
-        failureFlash: true
+    router.get('/twitter/callback', passport.authenticate('twitter', {
+        failureRedirect: '#!/signin'
     }), UserCtrl.authCallback);
 
     // Setting the google oauth routes
-    router.get('/auth/google', passport.authenticate('google', {
-        failureFlash: true,
-        scope: [
-            'https://www.googleapis.com/auth/userinfo.profile',
-            'https://www.googleapis.com/auth/userinfo.email'
-        ]
+    router.get('/google', passport.authenticate('google', {
+        failureRedirect: '#!/signin'
     }), UserCtrl.signin);
 
-    router.get('/auth/google/callback', passport.authenticate('google', {
-        failureFlash: true
+    router.get('/google/callback', passport.authenticate('google', {
+        failureRedirect: '#!/signin'
     }), UserCtrl.authCallback);
 
     // Setting the linkedin oauth routes
-    router.get('/auth/linkedin', passport.authenticate('linkedin', {
-        failureFlash: true,
-        scope: [ 'r_emailaddress' ]
+    router.get('/linkedin', passport.authenticate('linkedin', {
+        failureRedirect: '#!/signin'
     }), UserCtrl.signin);
 
-    router.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
-        failureFlash: true
+    router.get('/linkedin/callback', passport.authenticate('linkedin', {
+        failureRedirect: '#!/signin'
+    }), UserCtrl.authCallback);
+
+    // Setting the github oauth routes
+    router.get('/github', passport.authenticate('github', {
+        failureRedirect: '#!/signin'
+    }), UserCtrl.signin);
+
+    router.get('/github/callback', passport.authenticate('github', {
+        failureRedirect: '#!/signin'
     }), UserCtrl.authCallback);
 
 };

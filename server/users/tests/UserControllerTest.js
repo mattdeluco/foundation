@@ -19,10 +19,9 @@ describe('User Controller', function() {
     before(function(done) {
         user = new User({
             name: 'Sterling Archer',
-            email: 'duchess@isis.com',
+            email: 'duchess@example.com',
             username: 'duchess',
-            password: 'guest',
-            provider: 'local'
+            password: 'guest'
         });
         user.save();
         done();

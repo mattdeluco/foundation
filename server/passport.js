@@ -12,6 +12,61 @@ var mongoose = require('mongoose'),
     config = require('./config');
 
 
+var createOrUpdate = function (req, accessToken, refreshToken, profile, done) {
+    console.log(profile);
+    // Not logged in
+    //  If provider exists log user in
+    //  else create new account
+    if (!req.user) {
+
+        User.findOne({
+            'providers.provider': profile.provider,
+            'providers.id': profile.id
+        }, function (err, user) {
+            if (err) {
+                return done(err);
+            }
+
+            if (!user) {
+                profile.token = accessToken;
+
+                var newUser = new User({
+                    name: profile.name,
+                    provider: profile.provider,
+                    providers: [profile]
+                });
+
+                if (profile.email) {
+                    newUser.email = profile.email;
+                }
+
+                if (profile.username) {
+                    newUser.username = profile.username;
+                }
+
+                newUser.save(function (err) {
+                    if (err) console.log(err);
+                    return done(null, newUser);
+                });
+            }
+
+            return done(null, user);
+        });
+
+    } else { // Logged in, add provider to account
+
+        profile.token = accessToken;
+
+        User.findByIdAndUpdate(req.user._id,
+            {$push: {providers: profile}});
+
+        return done(null, req.user);
+
+    }
+
+};
+
+
 module.exports = function() {
 
     // Serialize the user id to push into the session
@@ -50,13 +105,41 @@ module.exports = function() {
         }
     ));
 
+    // Use facebook strategy
+    passport.use(new FacebookStrategy({
+            clientID: config.facebook.clientID,
+            clientSecret: config.facebook.clientSecret,
+            callbackURL: config.facebook.callbackURL,
+            passReqToCallback: true
+        },
+        function(req, accessToken, refreshToken, profile, done) {
+
+            var facebookProfile = {
+                id: profile.id,
+                name: profile.displayName,
+                token: accessToken,
+                provider: profile.provider
+                // TODO picture
+            };
+
+            if (profile.emails) {
+                facebookProfile['email'] = profile.emails[0].value;
+            }
+
+            createOrUpdate(req, accessToken, refreshToken, facebookProfile, done);
+
+        }
+    ));
+
     // Use twitter strategy
     passport.use(new TwitterStrategy({
             consumerKey: config.twitter.clientID,
             consumerSecret: config.twitter.clientSecret,
-            callbackURL: config.twitter.callbackURL
+            callbackURL: config.twitter.callbackURL,
+            passReqToCallback: true
         },
-        function(token, tokenSecret, profile, done) {
+        function(req, token, tokenSecret, profile, done) {
+
             User.findOne({
                 'twitter.id_str': profile.id
             }, function(err, user) {
@@ -81,74 +164,14 @@ module.exports = function() {
         }
     ));
 
-    // Use facebook strategy
-    passport.use(new FacebookStrategy({
-            clientID: config.facebook.clientID,
-            clientSecret: config.facebook.clientSecret,
-            callbackURL: config.facebook.callbackURL
-        },
-        function(accessToken, refreshToken, profile, done) {
-            User.findOne({
-                'facebook.id': profile.id
-            }, function(err, user) {
-                if (err) {
-                    return done(err);
-                }
-                if (!user) {
-                    user = new User({
-                        name: profile.displayName,
-                        email: profile.emails[0].value,
-                        username: profile.username,
-                        provider: 'facebook',
-                        facebook: profile._json
-                    });
-                    user.save(function(err) {
-                        if (err) console.log(err);
-                        return done(err, user);
-                    });
-                } else {
-                    return done(err, user);
-                }
-            });
-        }
-    ));
-
-    // Use github strategy
-    passport.use(new GitHubStrategy({
-            clientID: config.github.clientID,
-            clientSecret: config.github.clientSecret,
-            callbackURL: config.github.callbackURL
-        },
-        function(accessToken, refreshToken, profile, done) {
-            User.findOne({
-                'github.id': profile.id
-            }, function(err, user) {
-                if (!user) {
-                    user = new User({
-                        name: profile.displayName,
-                        email: profile.emails[0].value,
-                        username: profile.username,
-                        provider: 'github',
-                        github: profile._json
-                    });
-                    user.save(function(err) {
-                        if (err) console.log(err);
-                        return done(err, user);
-                    });
-                } else {
-                    return done(err, user);
-                }
-            });
-        }
-    ));
-
     // Use google strategy
     passport.use(new GoogleStrategy({
             clientID: config.google.clientID,
             clientSecret: config.google.clientSecret,
-            callbackURL: config.google.callbackURL
+            callbackURL: config.google.callbackURL,
+            passReqToCallback: true
         },
-        function(accessToken, refreshToken, profile, done) {
+        function(req, accessToken, refreshToken, profile, done) {
             User.findOne({
                 'google.id': profile.id
             }, function(err, user) {
@@ -176,9 +199,10 @@ module.exports = function() {
             consumerKey: config.linkedin.clientID,
             consumerSecret: config.linkedin.clientSecret,
             callbackURL: config.linkedin.callbackURL,
-            profileFields: ['id', 'first-name', 'last-name', 'email-address']
+            profileFields: ['id', 'first-name', 'last-name', 'email-address'],
+            passReqToCallback: true
         },
-        function(accessToken, refreshToken, profile, done) {
+        function(req, accessToken, refreshToken, profile, done) {
           User.findOne({
                 'linkedin.id': profile.id
             }, function (err, user) {
@@ -195,6 +219,36 @@ module.exports = function() {
                     });
                 } else {
                     return done(err, user)
+                }
+            });
+        }
+    ));
+
+    // Use github strategy
+    passport.use(new GitHubStrategy({
+            clientID: config.github.clientID,
+            clientSecret: config.github.clientSecret,
+            callbackURL: config.github.callbackURL,
+            passReqToCallback: true
+        },
+        function(req, accessToken, refreshToken, profile, done) {
+            User.findOne({
+                'github.id': profile.id
+            }, function(err, user) {
+                if (!user) {
+                    user = new User({
+                        name: profile.displayName,
+                        email: profile.emails[0].value,
+                        username: profile.username,
+                        provider: 'github',
+                        github: profile._json
+                    });
+                    user.save(function(err) {
+                        if (err) console.log(err);
+                        return done(err, user);
+                    });
+                } else {
+                    return done(err, user);
                 }
             });
         }
