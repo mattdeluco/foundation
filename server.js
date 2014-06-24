@@ -22,7 +22,7 @@ var mongoose = require('mongoose');
 var db = mongoose.connect(config.db);
 
 // Bootstrap models
-var walk = function(path) {
+var loadModels = function(path) {
     fs.readdirSync(path).forEach(function(file) {
         var newPath = path + '/' + file;
         var stat = fs.statSync(newPath);
@@ -31,11 +31,11 @@ var walk = function(path) {
                 require(newPath);
             }
         } else if (stat.isDirectory() && file !== 'config') {
-            walk(newPath);
+            loadModels(newPath);
         }
     });
 };
-walk(__dirname);
+loadModels(__dirname);
 
 // Bootstrap passport config
 require('./server/passport')(passport);

@@ -21,7 +21,7 @@ var express = require('express'),
     index = require('./index/IndexController');
 
 
-var loadRoutes = function(path, router) {
+var loadAPIs = function(path, router) {
     fs.readdirSync(path).forEach(function(file) {
         var newPath = path + '/' + file;
         var stat = fs.statSync(newPath);
@@ -29,7 +29,7 @@ var loadRoutes = function(path, router) {
             require(newPath)(router);
         } else if (stat.isDirectory() && file !== 'config') {
             var subRouter = express.Router();
-            loadRoutes(newPath, subRouter);
+            loadAPIs(newPath, subRouter);
             router.use('/' + file, subRouter);
         }
     });
@@ -92,7 +92,7 @@ module.exports = function(app, passport, db) {
 
     // Bootstrap Routes
     var router = express.Router();
-    loadRoutes(__dirname, router);
+    loadAPIs(__dirname, router);
     app.use('/api', router);
 
     // If we've come this far, no route matches, send the client.
