@@ -10,6 +10,9 @@
           <strong>Username:</strong> {{user.username}}<br/>
           <strong>Role:</strong> {{user.role.title}}<br/>
         </p>
+        <p>
+          <button class="btn btn-primary" ui-sref="edit">Edit</button>
+        </p>
       </div>
     </div>
   </div>
@@ -21,17 +24,15 @@
     <div class="panel panel-default">
       <div class="panel-heading">{{profile.provider}}</div>
       <div class="panel-body">
-        <p>
+        <p data-ng-if="profile.id">
           <strong>id:</strong> {{profile.id}}<br/>
           <strong>token:</strong> {{profile.token | breakLongLine}}<br/>
+          <a class="btn btn-danger" href="/api/auth/{{profile.provider}}/unlink">Sign Out</a>
+        </p>
+        <p>
+          <a class="btn btn-primary" href="/api/auth/{{profile.provider}}" data-ng-if="!profile.id">Sign In</a>
         </p>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="row">
-  <div>
-    <button class="btn btn-primary" ui-sref="edit">Edit</button>
   </div>
 </div>

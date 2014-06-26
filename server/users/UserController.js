@@ -3,9 +3,10 @@
 /**
  * Module dependencies.
  */
-var _ = require('lodash'),
-    mongoose = require('mongoose'),
-    User = mongoose.model('User');
+var _ = require('lodash')
+    , mongoose = require('mongoose')
+    , User = mongoose.model('User')
+    , providers = require('../passport').providers;
 
 
 module.exports = {
@@ -50,7 +51,17 @@ module.exports = {
             }
 
             if (user) {
-                console.log(user);
+
+                // Populate empty providers for sign up buttons
+                var unusedProviders = _.difference(
+                    _.keys(providers), _.map(user.providers, 'provider'));
+
+                if (unusedProviders) {
+                    _.forEach(unusedProviders, function (provider) {
+                        user.providers.push({provider: provider});
+                    });
+                }
+
                 return res.jsonp(user);
             }
         });

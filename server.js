@@ -5,7 +5,6 @@
  */
 var express = require('express'),
     fs = require('fs'),
-    passport = require('passport'),
     _ = require('lodash');
 
 /**
@@ -38,11 +37,11 @@ var loadModels = function(path) {
 loadModels(__dirname);
 
 // Bootstrap passport config
-require('./server/passport')(passport);
+require('./server/passport');
 
 // Create and configure the express app
 var app = express();
-require('./server/express')(app, passport, db);
+require('./server/express')(app, db);
 
 // Start the app by listening on <port>
 var port = process.env.PORT || config.port;

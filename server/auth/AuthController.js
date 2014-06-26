@@ -5,7 +5,9 @@
 
 var passport = require('passport')
     , mongoose = require('mongoose')
-    , User = mongoose.model('User');
+    , User = mongoose.model('User')
+    , providers = require('../passport').providers
+    , _ = require('lodash');
 
 module.exports = {
 
@@ -72,6 +74,24 @@ module.exports = {
     signout: function(req, res) {
         req.logout();
         res.redirect('/');
+    },
+
+    unlink: function (req, res, provider) {
+        var user = req.user;
+        user.providers[provider] = {};
+        user.save(function (err) {
+            res.redirect('/');
+        });
+    },
+
+    /***
+     * Replies with the available/configured providers (not the providers the
+     * user is currently subscribed to, which are included in /user).
+     * @param req
+     * @param res
+     */
+    providers: function (req, res) {
+        res.jsonp(_.keys(providers));
     }
 
 };

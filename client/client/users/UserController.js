@@ -3,9 +3,10 @@
 angular.module('mean.users').controller('UserCtrl', [
     '$scope',
     '$state',
+    '$http',
     'AlertSrvc',
     'UserRsrc',
-    function ($scope, $state, alertSrvc, userRsrc) {
+    function ($scope, $state, $http, alertSrvc, userRsrc) {
 
         $scope.profilePairs = [];
 
@@ -13,7 +14,7 @@ angular.module('mean.users').controller('UserCtrl', [
             function (resource, headers) {
                 var providers = resource.providers;
                 for (var i = 0; i < providers.length; i++) {
-                    $scope.profilePairs.push(providers.slice(i+i, i+i+1));
+                    $scope.profilePairs.push(providers.slice(i+i, i+(i+2)));
                 }
             },
             function (response) {

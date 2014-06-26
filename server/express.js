@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var express = require('express'),
+    passport = require('passport'),
     bodyParser = require('body-parser'),
     compress = require('compression'),
     cookieParser = require('cookie-parser'),
@@ -36,7 +37,7 @@ var loadAPIs = function(path, router) {
 };
 
 
-module.exports = function(app, passport, db) {
+module.exports = function(app, db) {
 
     app.set('showStackError', true);
 
