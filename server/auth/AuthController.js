@@ -77,11 +77,15 @@ module.exports = {
     },
 
     unlink: function (req, res, provider) {
-        var user = req.user;
-        user.providers[provider] = {};
-        user.save(function (err) {
-            res.redirect('/');
-        });
+        User.findByIdAndUpdate(
+            req.user._id,
+            {$pull: {'providers': {'provider': provider}}},
+            {},
+            function (err, user) {
+                if (err) console.log(err);
+                res.redirect('/');
+            }
+        );
     },
 
     /***

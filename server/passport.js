@@ -133,14 +133,18 @@ var registerOrLink = function (req, profile, done) {
 
         // Logged in, add provider to account
 
-        User.findByIdAndUpdate(
-            req.user._id,
-            {$push: {providers: profile}},
-            {},
-            function (err, user) {
-                if (err) console.log(err);
-                return done(null, user);
-            });
+        // TODO ensure uniqueness among providers!
+        // Does this work??
+        // Support multiple accounts with same provider?  Check profile.id...
+        if (req.user.providers[profile.provider]) {
+            return done(null, user);
+        }
+
+        req.user.providers.push(profile);
+        req.user.save(function (err, user) {
+            if (err) console.log(err);
+            return done(null, user);
+        });
 
     }
 
