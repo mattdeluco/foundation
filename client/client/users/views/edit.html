@@ -1,49 +1,81 @@
 <div class="row">
   <div class="col-md-6">
+
     <form name="editUserForm" class="form-horizontal" data-ng-submit="update(user)" novalidate>
-      <div class="form-group">
-        <label class="col-md-4 control-label" for="name">Name</label>
-        <div class="col-md-8">
-          <input id="name" class="form-control" type="text" ng-model="user.name" value="user.name" placeholder="Name" required />
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-md-4 control-label" for="username">Nickname</label>
-        <div class="col-md-8">
-          <input id="username" class="form-control" type="text" ng-model="user.username" value="user.username" placeholder="Nickname" />
-        </div>
-      </div>
-      <div class="form-group">
-          <label class="col-md-4 control-label" for="email">Email</label>
-          <div class="col-md-8">
+
+      <div class="panel panel-default">
+
+        <div class="panel-heading">Profile</div>
+
+        <div class="panel-body">
+
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="name">Name</label>
+            <div class="col-md-8">
+              <input id="name" class="form-control" type="text" ng-model="user.name" value="user.name" placeholder="Name" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="username">Nickname</label>
+            <div class="col-md-8">
+              <input id="username" class="form-control" type="text" ng-model="user.username" value="user.username" placeholder="Nickname" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="email">Email</label>
+            <div class="col-md-8">
               <input id="email" class="form-control" type="email" ng-model="user.email" value="user.email" placeholder="Email" required />
+            </div>
           </div>
+
+        </div>
+
       </div>
-      <div class="form-group">
-          <label class="col-md-4 control-label" for="password">Password</label>
-          <div class="col-md-8">
-              <input id="password" class="form-control" type="password" ng-model="user.password" placeholder="Password" />
+
+      <div class="panel panel-default">
+
+        <div class="panel-heading">Change Password</div>
+
+        <div class="panel-body">
+
+          <div class="form-group" data-ng-class="{
+              'has-error': editUserForm.new_password.$error.match && (editUserForm.new_password.$dirty || editUserForm.new_password_repeat.$dirty)
+              }">
+            <label class="col-md-4 control-label" for="password">Old Password</label>
+            <div class="col-md-8">
+              <input id="password" name="password" class="form-control" type="password" ng-model="user.password" placeholder="Old Password" />
+              <span class="help-block" data-ng-show="editUserForm.password.$dirty">Only necessary for new password</span>
+            </div>
           </div>
-      </div>
-      <div class="form-group">
-        <label class="col-md-4 control-label" for="new_password">New Password</label>
-        <div class="col-md-8">
-          <input id="new_password" name="new_password" class="form-control" type="password" ng-model="user.new_password" placeholder="New Password" />
+
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="new_password">New Password</label>
+            <div class="col-md-8">
+              <input ng-model="user.new_password" data-match-input="user.new_password_repeat" id="new_password" name="new_password" class="form-control" type="password" placeholder="New Password" />
+            </div>
+          </div>
+
+          <div class="form-group" data-ng-class="{
+              'has-error': editUserForm.new_password.$error.match,
+              'has-success': editUserForm.new_password_repeat.$dirty && !editUserForm.new_password.$error.match}">
+            <label class="col-md-4 control-label" for="new_password_repeat">Confirm Password</label>
+            <div class="col-md-8">
+              <input data-ng-model="user.new_password_repeat" id="new_password_repeat" name="new_password_repeat" class="form-control" type="password" placeholder="Confirm" />
+              <span class="help-block" data-ng-show="editUserForm.new_password.$error.match">Must match new password</span>
+            </div>
+          </div>
+
         </div>
+
       </div>
-      <div class="form-group" ng-class="{
-          'has-error': editUserForm.new_password_repeat.$error.unique,
-          'has-success': editUserForm.new_password.$dirty && !editUserForm.new_password_repeat.$error.unique}">
-        <label class="col-md-4 control-label" for="new_password_repeat">Confirm Password</label>
-        <div class="col-md-8">
-          <input id="new_password_repeat" name="new_password_repeat" class="form-control" type="password" ng-model="user.new_password_repeat" placeholder="Confirm" sn-input-match="user.new_password" />
-          <span class="help-block" ng-show="editUserForm.new_password_repeat.$error.unique">Must match new password</span>
-        </div>
-      </div>
+
+
       <div class="form-group">
           <div class="col-md-offset-4 col-md-8">
-            <button class="btn btn-primary" ui-sref="me">Cancel</button>
-            <button class="btn btn-primary" ng-disabled="editUserForm.$dirty && editUserForm.$invalid">Update</button>
+            <a class="btn btn-danger" data-ui-sref="user.me">Cancel</a>
+            <button class="btn btn-success pull-right" data-ng-disabled="editUserForm.$invalid">Update</button>
           </div>
       </div>
     </form>

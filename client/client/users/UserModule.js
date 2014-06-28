@@ -19,19 +19,22 @@ module.config([
             .state('user', {
                 abstract: true,
                 template: "<data-ui-view />",
+                controller: 'UserCtrl',
                 data: {
                     access: access.user
                 }
             })
             .state('user.home', {
                 url: '/',
-                templateUrl: '/client/users/views/home.html',
-                controller: 'UserCtrl'
+                templateUrl: '/client/users/views/home.html'
             })
             .state('user.me', {
                 url: '/me/',
-                templateUrl: '/client/users/views/me.html',
-                controller: 'UserCtrl'
+                templateUrl: '/client/users/views/me.html'
+            })
+            .state('user.edit', {
+                url: '/me/edit/',
+                templateUrl: '/client/users/views/edit.html'
             });
 
     }

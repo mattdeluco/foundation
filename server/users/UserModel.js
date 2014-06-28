@@ -21,13 +21,14 @@ var UserSchema = new Schema({
         type: String,
         required: true
     },
-    // TODO Handle username collisions from different providers
     // TODO Handle providers that don't supply a username
     username: {
         type: String,
         unique: true
         //required: true
     },
+    // TODO Handle provider that don't supply an email
+    // TODO Handle no emails!
     email: {
         type: String,
         unique: true,

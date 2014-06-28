@@ -72,7 +72,7 @@ describe('Auth Controller', function() {
                     res.should.have.status(400);
                     res.body.should.have.property('error');
                     res.body.error.should.have.property('type');
-                    res.body.error.should.have.property('message');
+                    res.body.error.should.have.property('msg');
                     done();
                 });
         });
@@ -90,11 +90,12 @@ describe('Auth Controller', function() {
                 .expect(200)
                 .end(function(err, res) {
                     should.not.exist(err);
-                    res.body.should.have.property('name', user.name);
-                    res.body.should.have.property('email', user.email);
-                    res.body.should.have.property('role');
-                    res.body.role.should.containDeep(userRoles.user);
-                    res.body.should.not.have.property('hashed_password');
+                    res.body.should.have.property('user');
+                    res.body.user.should.have.property('name', user.name);
+                    res.body.user.should.have.property('email', user.email);
+                    res.body.user.should.have.property('role');
+                    res.body.user.role.should.containDeep(userRoles.user);
+                    res.body.user.should.not.have.property('hashed_password');
                     done();
                 });
         });

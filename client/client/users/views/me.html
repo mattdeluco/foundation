@@ -11,7 +11,7 @@
           <strong>Role:</strong> {{user.role.title}}<br/>
         </p>
         <p>
-          <button class="btn btn-primary" ui-sref="edit">Edit</button>
+          <a class="btn btn-primary" data-ui-sref="user.edit">Edit</a>
         </p>
       </div>
     </div>
@@ -20,7 +20,9 @@
 </div>
 
 <div class="row" data-ng-repeat="profiles in profilePairs">
+
   <div class="col-xs-6" data-ng-repeat="profile in profiles">
+
     <div class="panel panel-default">
       <div class="panel-heading">{{profile.provider}}</div>
       <div class="panel-body">
@@ -34,5 +36,7 @@
         </p>
       </div>
     </div>
+
   </div>
+
 </div>

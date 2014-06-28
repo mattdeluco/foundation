@@ -10,6 +10,7 @@ angular.module('mean', [
     , 'mean.menubar'
     , 'mean.footer'
     , 'mean.users'
+    , 'foundation.directives'
     , 'foundation.filters'
 //    , 'mean.articles'
 ]);
