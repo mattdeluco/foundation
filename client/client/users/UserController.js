@@ -3,10 +3,9 @@
 angular.module('mean.users').controller('UserCtrl', [
     '$scope',
     '$state',
-    '$http',
     'AlertSrvc',
     'UserRsrc',
-    function ($scope, $state, $http, alertSrvc, userRsrc) {
+    function ($scope, $state, alertSrvc, userRsrc) {
 
         $scope.profilePairs = [];
 
@@ -18,6 +17,8 @@ angular.module('mean.users').controller('UserCtrl', [
                 }
             },
             function (response) {
+                // TODO What to do here?  Auth should keep user from getting this far.
+                $state.go('anon.signin');
                 alertSrvc.addAlerts(response.alert.type, response.alert.msg);
             }
         );
@@ -25,13 +26,12 @@ angular.module('mean.users').controller('UserCtrl', [
         $scope.update = function(user) {
             userRsrc.update([], user,
                 function(resource, headers) {
-                    alertSrvc.addAlerts('success', 'Account updated!');
                     $state.go('user.me');
+                    alertSrvc.addAlerts('success', 'Account updated!');
                 },
                 function(response) {
-                    console.log(response.data);
-                    alertSrvc.addAlerts(response.data.alert.type, response.data.alert.msg);
                     $state.go('user.me');
+                    alertSrvc.addAlerts(response.data.alert.type, response.data.alert.msg);
                 }
             );
         };
