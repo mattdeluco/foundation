@@ -23,17 +23,14 @@ angular.module('mean.users').controller('UserCtrl', [
         );
 
         $scope.update = function(user) {
-
             userRsrc.update([], user,
                 function(resource, headers) {
-                    $scope.alerts.push({
-                        type: 'success',
-                        msg: 'Account updated!'
-                    });
+                    alertSrvc.addAlerts('success', 'Account updated!');
                     $state.go('user.me');
                 },
                 function(response) {
-                    $scope.alerts.push(response.data.alert);
+                    console.log(response.data);
+                    alertSrvc.addAlerts(response.data.alert.type, response.data.alert.msg);
                     $state.go('user.me');
                 }
             );

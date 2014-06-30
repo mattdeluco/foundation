@@ -53,7 +53,7 @@
           <div class="form-group">
             <label class="col-md-4 control-label" for="new_password">New Password</label>
             <div class="col-md-8">
-              <input ng-model="user.new_password" data-match-input="user.new_password_repeat" id="new_password" name="new_password" class="form-control" type="password" placeholder="New Password" />
+              <input ng-model="user.new_password" data-match-input="new_password_repeat" id="new_password" name="new_password" class="form-control" type="password" placeholder="New Password" />
             </div>
           </div>
 
@@ -62,7 +62,7 @@
               'has-success': editUserForm.new_password_repeat.$dirty && !editUserForm.new_password.$error.match}">
             <label class="col-md-4 control-label" for="new_password_repeat">Confirm Password</label>
             <div class="col-md-8">
-              <input data-ng-model="user.new_password_repeat" id="new_password_repeat" name="new_password_repeat" class="form-control" type="password" placeholder="Confirm" />
+              <input data-ng-model="new_password_repeat" id="new_password_repeat" name="new_password_repeat" class="form-control" type="password" placeholder="Confirm" />
               <span class="help-block" data-ng-show="editUserForm.new_password.$error.match">Must match new password</span>
             </div>
           </div>

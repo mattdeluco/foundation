@@ -154,6 +154,23 @@ describe('User Model', function() {
                 done();
             });
         });
+
+        it('should be able to change the password', function (done) {
+            User.findOne({_id: user.id}, '+hashed_password', function(err, user) {
+                var old_password = user.hashed_password;
+                user.password = 'new_password';
+
+                user.save(function (err, user) {
+                    should.not.exist(err);
+                    User.findOne({_id: user.id}, '+hashed_password', function(err, user) {
+                        user.hashed_password.should.not.equal(old_password);
+                        done();
+                    });
+                });
+
+            });
+
+        });
     });
 
     after(function(done) {

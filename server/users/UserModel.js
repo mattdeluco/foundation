@@ -64,6 +64,19 @@ UserSchema.virtual('password').set(function(password) {
     return this._password;
 });
 
+var passwordTransform = function (doc, ret, options) {
+    delete ret.hashed_password;
+    return ret;
+};
+
+UserSchema.set('toJSON', {
+    transform: passwordTransform
+});
+
+UserSchema.set('toObject', {
+    transform: passwordTransform
+});
+
 
 UserSchema.methods = {
     /**
@@ -91,7 +104,7 @@ UserSchema.methods = {
 };
 
 
-UserSchema.index({'providers.id': 1})
+UserSchema.index({'providers.id': 1});
 
 
 mongoose.model('User', UserSchema);

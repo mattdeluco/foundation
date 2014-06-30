@@ -181,7 +181,7 @@ passport.use(new LocalStrategy({
 
             if (!user || !user.authenticate(password)) {
                 return done(null, false, {
-                    message: 'Invalid email or password'
+                    msg: 'Invalid email or password'
                 });
             }
 

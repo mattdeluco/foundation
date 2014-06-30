@@ -1,6 +1,6 @@
 /**
- * Created by mdeluco on 2014-03-29.
- */
+* Created by mdeluco on 2014-03-29.
+*/
 'use strict';
 
 var app = require('../../../server')
@@ -37,13 +37,6 @@ describe('User Controller', function() {
                 .expect(403, done);
         });
 
-        it('should require the user to be authenticated to update user object', function(done) {
-            agent
-                .put('/api/users/user')
-                .send({name: 'Foo'})
-                .expect(403, done);
-        });
-
         it('should signin to access the user object', function(done) {
             agent
                 .post('/api/auth/signin')
@@ -54,9 +47,9 @@ describe('User Controller', function() {
         it('should have access to the user object after signin', function(done) {
             agent
                 .get('/api/users/user')
-                .expect(200)
                 .end(function(err, res) {
                     should.not.exist(err);
+                    res.should.have.status(200);
                     res.body.should.have.property('name', user.name);
                     res.body.should.have.property('email', user.email);
                     res.body.should.have.property('role');
@@ -66,7 +59,27 @@ describe('User Controller', function() {
                 });
         });
 
-        it('should update a user object', function(done) {
+    });
+
+    describe('Edit User Profile', function () {
+
+        var agent = request.agent(app);
+
+        it('should require the user to be authenticated to edit the user profile', function(done) {
+            agent
+                .put('/api/users/user')
+                .send({name: 'Foo'})
+                .expect(403, done);
+        });
+
+        it('must signin to edit the user profile', function (done) {
+            agent
+                .post('/api/auth/signin')
+                .send({email: user.email, password: user.password})
+                .expect(200, done);
+        });
+
+        it('should update the user profile', function(done) {
             var new_name = 'Foo';
             var username = 'Bar';
 
@@ -76,14 +89,50 @@ describe('User Controller', function() {
                     name: new_name,
                     username: username
                 })
-                .expect(200)
                 .end(function(err, res) {
                     should.not.exist(err);
+                    res.should.have.status(200);
                     res.body.should.have.property('name', new_name);
                     res.body.should.have.property('email', user.email);
                     res.body.should.have.property('username', username);
                     done();
                 });
+        });
+
+        it('should not update the user password without the old password', function (done) {
+            done();
+        });
+
+        it('should update the user password', function (done) {
+
+            var old_password = user.password;
+            var new_password = user.password = 'guest123';
+
+            agent
+                .put('/api/users/user')
+                .send({
+                    email: user.email,
+                    password: old_password,
+                    new_password: user.password
+                })
+                .end(function (err, res) {
+                    res.should.have.status(200);
+                    res.body.should.not.have.property('hashed_password');
+                    done();
+                });
+        });
+
+        it('should sign out', function (done) {
+            agent
+                .get('/api/auth/signout')
+                .expect(302, done);
+        });
+
+        it('should sign in using the new password', function (done) {
+            agent
+                .post('/api/auth/signin')
+                .send({email: user.email, password: user.password})
+                .expect(200, done);
         });
 
     });

@@ -6,7 +6,8 @@
 var _ = require('lodash')
     , mongoose = require('mongoose')
     , User = mongoose.model('User')
-    , providers = require('../passport').providers;
+    , providers = require('../passport').providers
+    , passport = require('passport');
 
 
 module.exports = {
@@ -23,7 +24,11 @@ module.exports = {
     },
 
     update: function (req, res) {
+
         var user = _.extend(req.user, req.body);
+        if (req.body.new_password) {
+            user.password = req.body.new_password;
+        }
 
         user.save(function (err, user /*, nr_affected */) {
             if (err) {
@@ -35,7 +40,7 @@ module.exports = {
                 });
             }
 
-            res.jsonp(user);
+            return res.jsonp(user);
         });
     },
 
