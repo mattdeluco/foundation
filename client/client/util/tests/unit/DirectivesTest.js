@@ -32,13 +32,12 @@ describe('Match Input Directive', function () {
     });
 
 
-    it('should initially be valid', function (done) {
+    it('should initially be valid', function () {
         expect(form.$valid).to.be.true;
         expect(form.password.$error.match).to.be.undefined;
-        done();
     });
 
-    it('should be invalid when fields are mismatched (starting with directive field)', function (done) {
+    it('should be invalid when fields are mismatched (starting with directive field)', function () {
         form.password.$setViewValue(password);
         scope.$digest();
         expect(form.password.$error.match).to.be.true;
@@ -48,11 +47,9 @@ describe('Match Input Directive', function () {
         scope.$digest();
         expect(form.password.$error.match).to.be.true;
         expect(form.password.$valid).to.be.false;
-
-        done();
     });
 
-    it('should be invalid when fields are mismatched (starting with non-directive field)', function (done) {
+    it('should be invalid when fields are mismatched (starting with non-directive field)', function () {
         form.password_repeat.$setViewValue(password);
         scope.$digest();
         expect(form.password.$error.match).to.be.true;
@@ -62,18 +59,15 @@ describe('Match Input Directive', function () {
         scope.$digest();
         expect(form.password.$error.match).to.be.true;
         expect(form.password.$valid).to.be.false;
-
-        done();
     });
 
-    it('should be valid when fields are matched', function (done) {
+    it('should be valid when fields are matched', function () {
         form.password.$setViewValue(password);
         form.password_repeat.$setViewValue(password);
         scope.$digest();
         expect(form.password.$error.match).to.be.false;
         expect(form.password.$valid).to.be.true;
         expect(form.$valid).to.be.true;
-        done();
     });
 
 });
