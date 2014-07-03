@@ -1,14 +1,19 @@
 {
-    "name": "mean",
-    "version": "0.1.3",
-    "dependencies": {
-        "angular": "latest",
-        "angular-resource": "latest",
-        "angular-cookies": "latest",
-        "angular-mocks": "latest",
-        "angular-route": "latest",
-        "bootstrap": "latest",
-        "angular-bootstrap": "latest",
-        "angular-ui-router": "#master"
-    }
+  "name": "mean",
+  "version": "0.1.3",
+  "directory": "",
+  "dependencies": {
+    "angular": "~1.2.19",
+    "angular-resource": "~1.2.19",
+    "angular-cookies": "~1.2.19",
+    "angular-route": "~1.2.19",
+    "bootstrap": "~3.2.0",
+    "angular-bootstrap": "~0.11.0",
+    "angular-ui-router": "~0.2.10"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.2.19",
+    "mocha": "~1.20.1",
+    "chai": "~1.9.1"
+  }
 }

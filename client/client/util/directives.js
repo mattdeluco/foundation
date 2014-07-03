@@ -15,8 +15,7 @@ angular.module('foundation.directives', []).directive('matchInput',
             },
             link: function (scope, elem, attrs, ctrl) {
                 scope.$watch(function () {
-                    return (ctrl.$pristine && angular.isUndefined(ctrl.$modelValue)) ||
-                        ctrl.$modelValue === scope.matchInput;
+                    return ctrl.$modelValue === scope.matchInput;
                 }, function (currentValue) {
                     ctrl.$setValidity('match', currentValue);
                 });

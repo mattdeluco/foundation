@@ -16,7 +16,8 @@
                 "client/lib/angular-resource/angular-resource.min.js",
                 "client/lib/angular-cookies/angular-cookies.min.js",
                 "client/lib/angular-ui-router/release/angular-ui-router.min.js",
-                "client/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"
+                "client/lib/angular-bootstrap/ui-bootstrap-tpls.min.js",
+                "client/lib/angular-mocks/angular-mocks.js"
             ]
         },
         "clientCss": {
@@ -37,6 +38,21 @@
                 "client/client/init.js",
                 "!client/client/**/*Test.js",
                 "!client/client/articles/**/*.js"
+            ]
+        }
+    },
+    "test": {
+        "testCss": {
+            "src": [
+                "client/lib/mocha/mocha.css"
+            ]
+        },
+        "testJs": {
+            "src": [
+                "client/lib/mocha/mocha.js",
+                "../mocha.conf.js",
+                "client/lib/chai/chai.js",
+                "client/client/**/tests/unit/*Test.js"
             ]
         }
     }
