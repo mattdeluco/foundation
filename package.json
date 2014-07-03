@@ -70,7 +70,6 @@
     "karma-requirejs": "~0.2.2",
     "karma-script-launcher": "~0.1.0",
     "mocha": "~1.18.2",
-    "should": "~3.3.2",
     "supertest": "~0.13.0"
   }
 }

@@ -4,7 +4,7 @@
 'use strict';
 
 var app = require('../../../server')
-    , should = require('should')
+    , expect = require('chai').expect
     , request = require('supertest')
     , mongoose = require('mongoose')
     , User = mongoose.model('User')
@@ -32,14 +32,16 @@ describe('Auth Controller', function() {
             agent
                 .post('/api/auth/register')
                 .send(user)
+                .expect(200)
                 .end(function(err, res) {
-                    should.not.exist(err);
-                    res.should.have.status(200);
-                    res.body.should.have.property('name', user.name);
-                    res.body.should.have.property('email', user.email);
-                    res.body.should.have.property('role');
-                    res.body.role.should.containDeep(userRoles.user);
-                    res.body.should.not.have.property('hashed_password');
+                    expect(err).to.not.exist;
+                    expect(res.body).to.contain({
+                        name: user.name,
+                        email: user.email
+                    });
+                    expect(res.body).to.have.property('role');
+                    expect(res.body.role).to.contain(userRoles.user);
+                    expect(res.body).to.not.have.property('hashed_password');
                     done();
                 });
         });
@@ -49,12 +51,14 @@ describe('Auth Controller', function() {
                 .get('/api/users/user')
                 .expect(200)
                 .end(function(err, res) {
-                    should.not.exist(err);
-                    res.body.should.have.property('name', user.name);
-                    res.body.should.have.property('email', user.email);
-                    res.body.should.have.property('role');
-                    res.body.role.should.containDeep(userRoles.user);
-                    res.body.should.not.have.property('hashed_password');
+                    expect(err).to.not.exist;
+                    expect(res.body).to.contain({
+                        name: user.name,
+                        email: user.email
+                    });
+                    expect(res.body).to.have.property('role');
+                    expect(res.body.role).to.contain(userRoles.user);
+                    expect(res.body).to.not.have.property('hashed_password');
                     done();
                 });
 
@@ -67,12 +71,11 @@ describe('Auth Controller', function() {
             request(app)
                 .post('/api/auth/register')
                 .send(user)
+                .expect(400)
                 .end(function(err, res) {
-                    should.not.exist(err);
-                    res.should.have.status(400);
-                    res.body.should.have.property('error');
-                    res.body.error.should.have.property('type');
-                    res.body.error.should.have.property('msg');
+                    expect(err).to.not.exist;
+                    expect(res.body).to.have.property('error');
+                    expect(res.body.error).to.contain.keys('type', 'msg');
                     done();
                 });
         });
@@ -89,13 +92,15 @@ describe('Auth Controller', function() {
                 .send(_.omit(user, 'name'))
                 .expect(200)
                 .end(function(err, res) {
-                    should.not.exist(err);
-                    res.body.should.have.property('user');
-                    res.body.user.should.have.property('name', user.name);
-                    res.body.user.should.have.property('email', user.email);
-                    res.body.user.should.have.property('role');
-                    res.body.user.role.should.containDeep(userRoles.user);
-                    res.body.user.should.not.have.property('hashed_password');
+                    expect(err).to.not.exist;
+                    expect(res.body).to.have.property('user');
+                    expect(res.body.user).to.contain({
+                        name: user.name,
+                        email: user.email
+                    });
+                    expect(res.body.user).to.have.property('role');
+                    expect(res.body.user.role).to.contain(userRoles.user);
+                    expect(res.body.user).to.not.have.property('hashed_password');
                     done();
                 });
         });
@@ -105,8 +110,8 @@ describe('Auth Controller', function() {
                 .post('/api/auth/signout')
                 .expect(200)
                 .end(function(err, res) {
-                    should.not.exist(err);
-                    res.body.should.not.have.properties('name', 'email', 'role');
+                    expect(err).to.not.exist;
+                    expect(res.body).to.not.contain.keys('name', 'email', 'role');
                     done();
                 });
         });
@@ -120,10 +125,9 @@ describe('Auth Controller', function() {
                 .send(user_wrong_pw)
                 .expect(401)
                 .end(function(err, res) {
-                    should.not.exist(err);
-                    res.body.should.have.property('error');
-                    res.body.error.should.have.property('type');
-                    res.body.error.should.have.property('message');
+                    expect(err).to.not.exist;
+                    expect(res.body).to.have.property('error');
+                    expect(res.body.error).to.contain.keys('type', 'msg');
                     done();
                 });
         });

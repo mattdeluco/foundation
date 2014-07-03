@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-var should = require('should')
+var expect = require('chai').expect
     , mongoose = require('mongoose')
     , User = mongoose.model('User')
     , userRoles = require('../../../client/client/auth/AuthAccessLevels')
@@ -36,8 +36,8 @@ describe('User Model', function() {
 
         it('should begin with no users', function (done) {
             User.find({}, function (err, users) {
-                should.not.exist(err);
-                users.should.have.length(0);
+                expect(err).to.not.exist;
+                expect(users).to.have.length(0);
                 done();
             });
         });
@@ -47,16 +47,14 @@ describe('User Model', function() {
         });
 
         it('should save a user with default role user', function (done) {
-            user.should.have.property('role');
-            user.role.should.have.properties({
-                bitMask: userRoles.user.bitMask,
-                title: userRoles.user.title
-            });
+            expect(user).to.have.property('role');
+            expect(user.role).to.have.property('bitMask', userRoles.user.bitMask);
+            expect(user.role).to.have.property('title', userRoles.user.title);
             done();
         });
 
         it('should save a user with a default provider of local', function (done) {
-            user.should.have.property('provider', 'local');
+            expect(user).to.have.property('provider', 'local');
             done();
         });
 
@@ -66,16 +64,16 @@ describe('User Model', function() {
 
         it('should fail to save a new user with a duplicate email address', function (done) {
             user2.save(function (err) {
-                should.exist(err);
-                err.should.have.property('code', 11000);
+                expect(err).to.exist;
+                expect(err).to.have.property('code', 11000);
                 done();
             });
         });
 
         it('should not save a new user with a duplicate username', function (done) {
             user2.save(function (err) {
-                should.exist(err);
-                err.should.have.property('code', 11000);
+                expect(err).to.exist;
+                expect(err).to.have.property('code', 11000);
                 done();
             });
         });
@@ -94,9 +92,9 @@ describe('User Model', function() {
             var userx = new User(user);
             userx.name = '';
             userx.save(function(err) {
-                should.exist(err);
-                err.should.have.property('name', 'ValidationError');
-                err.errors.should.have.property('name');
+                expect(err).to.exist;
+                expect(err).to.have.property('name', 'ValidationError');
+                expect(err.errors).to.have.property('name');
                 done();
             });
         });
@@ -105,9 +103,9 @@ describe('User Model', function() {
             var userx = new User(user);
             userx.email = '';
             userx.save(function(err) {
-                should.exist(err);
-                err.should.have.property('name', 'ValidationError');
-                err.errors.should.have.property('email');
+                expect(err).to.exist;
+                expect(err).to.have.property('name', 'ValidationError');
+                expect(err.errors).to.have.property('email');
                 done();
             });
         });
@@ -116,9 +114,9 @@ describe('User Model', function() {
             var userx = new User(user);
             userx.password = '';
             userx.save(function(err) {
-                should.exist(err);
-                err.should.have.property('name', 'ValidationError');
-                err.errors.should.have.property('hashed_password');
+                expect(err).to.exist;
+                expect(err).to.have.property('name', 'ValidationError');
+                expect(err.errors).to.have.property('hashed_password');
                 done();
             });
         });
@@ -141,16 +139,16 @@ describe('User Model', function() {
         it('should store the password as a bcrypt hash', function(done) {
             user.save();
             User.findOne({_id: user.id}, '+hashed_password', function(err, user) {
-                should.not.exist(err);
-                user.hashed_password.should.startWith('$2a$10$');
+                expect(err).to.not.exist;
+                expect(user.hashed_password).to.match(/^\$2a\$10\$/);
                 done();
             });
         });
 
         it('should not return hashed_password in a query', function(done) {
             User.findOne({_id: user.id}, function(err, user1) {
-                should.not.exist(err);
-                user1.should.have.property('hashed_password', undefined);
+                expect(err).to.not.exist;
+                expect(user1.hashed_password).to.not.exist;
                 done();
             });
         });
@@ -161,9 +159,9 @@ describe('User Model', function() {
                 user.password = 'new_password';
 
                 user.save(function (err, user) {
-                    should.not.exist(err);
+                    expect(err).to.not.exist;
                     User.findOne({_id: user.id}, '+hashed_password', function(err, user) {
-                        user.hashed_password.should.not.equal(old_password);
+                        expect(user.hashed_password).to.not.equal(old_password);
                         done();
                     });
                 });

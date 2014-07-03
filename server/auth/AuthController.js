@@ -51,7 +51,7 @@ module.exports = {
                 return res.jsonp(401, {
                     error: {
                         type: 'danger',
-                        message: info
+                        msg: info.msg
                     }
                 });
             }

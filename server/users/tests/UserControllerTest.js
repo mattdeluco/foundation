@@ -4,7 +4,7 @@
 'use strict';
 
 var app = require('../../../server')
-    , should = require('should')
+    , expect = require('chai').expect
     , request = require('supertest')
     , User = require('mongoose').model('User')
     , _ = require('lodash')
@@ -48,13 +48,15 @@ describe('User Controller', function() {
             agent
                 .get('/api/users/user')
                 .end(function(err, res) {
-                    should.not.exist(err);
-                    res.should.have.status(200);
-                    res.body.should.have.property('name', user.name);
-                    res.body.should.have.property('email', user.email);
-                    res.body.should.have.property('role');
-                    res.body.role.should.containDeep(userRoles.user);
-                    res.body.should.not.have.property('hashed_password');
+                    expect(err).to.not.exist;
+                    expect(res.status).to.equal(200);
+                    expect(res.body).to.contain({
+                        name: user.name,
+                        email: user.email
+                    });
+                    expect(res.body).to.have.property('role');
+                    expect(res.body.role).to.contain(userRoles.user);
+                    expect(res.body).to.not.have.property('hashed_password');
                     done();
                 });
         });
@@ -90,11 +92,13 @@ describe('User Controller', function() {
                     username: username
                 })
                 .end(function(err, res) {
-                    should.not.exist(err);
-                    res.should.have.status(200);
-                    res.body.should.have.property('name', new_name);
-                    res.body.should.have.property('email', user.email);
-                    res.body.should.have.property('username', username);
+                    expect(err).to.not.exist;
+                    expect(res.status).to.equal(200);
+                    expect(res.body).to.contain({
+                        name: new_name,
+                        email: user.email,
+                        username: username
+                    });
                     done();
                 });
         });
@@ -116,8 +120,8 @@ describe('User Controller', function() {
                     new_password: user.password
                 })
                 .end(function (err, res) {
-                    res.should.have.status(200);
-                    res.body.should.not.have.property('hashed_password');
+                    expect(res.status).to.equal(200);
+                    expect(res.body).to.not.have.property('hashed_password');
                     done();
                 });
         });
