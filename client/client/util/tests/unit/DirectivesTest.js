@@ -3,7 +3,7 @@
  */
 'use strict';
 
-describe('Directives', function () {
+describe('Match Input Directive', function () {
 
     var scope, form;
     var password = 'abc123';
